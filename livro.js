@@ -827,3 +827,975 @@ Se você gostou desta viagem do JavaScript puro ao React e decidiu aprender Reac
 No final, lembre-se sempre que há pessoas trabalhando atrás das cortinas para habilitar estas soluções para você. Você pode fazer um grande favor aos colaboradores ao animá-los no Twitter de vez em quando ou ao se envolver com o código aberto. Afinal, ninguém mais quer construir aplicações maiores em vanilla JavaScript. Portanto, valorize sua biblioteca ou framework que você está usando todos os dias :)
 */
 
+
+//#####################################
+
+
+/*
+
+- Fundamentos do JavaScript antes de aprender React
+
+Depois de todos os meus ensinamentos sobre React, seja online para um público maior ou on-site para empresas em transição para o desenvolvimento web e React, sempre chego à conclusão de que React é tudo sobre JavaScript. Os recém-chegados ao React mas também eu mesmo o vejo como uma vantagem, pois você carrega seus conhecimentos de JavaScript por um tempo maior em comparação com suas habilidades de React.
+
+Durante meus workshops, a maior parte do material é sobre JavaScript e não sobre React. A maior parte dele se resume a JavaScript ES6 e mais além -- características e sintaxe -- mas também operadores ternários, versões resumidas na linguagem, o objeto, funções embutidas em JavaScript (map, reduce , filter) ou conceitos mais gerais como componibilidade, reusabilidade, imutabilidade, fechamentos, tabelas de verdade ou funções de ordem superior. Estes são os fundamentos, que você não precisa necessariamente dominar antes de começar com React, mas que com certeza surgirão ao aprendê-lo ou praticá-lo.
+
+O passo seguinte é minha tentativa de lhe dar uma lista quase extensa mas concisa sobre todas as diferentes funcionalidades JavaScript que complementam seu conhecimento do React. Se você tiver qualquer outra coisa que não esteja na lista, basta deixar um comentário para este artigo e eu vou mantê-lo atualizado.
+
+
+- LISTA DE CONTEÚDOS (https://www.robinwieruch.de/javascript-fundamentals-react-requirements)
+
+- Inserindo React depois de aprender JavaScript
+- Aulas de React e JavaScript
+- Arrow functions em React
+- Funções como Componentes em React
+- Sintaxe dos Componentes da Classe de React
+- Modelos de Literais em React
+- Map, Reduce e Filter em React
+- var, let, e const in React
+- Ternary Operator in React
+- Declarações de Importação e Exportação em React
+- Bibliotecas em React
+- Async/Await in React
+- Funções de Ordem Superior em React
+- Shorthand notation Object
+- Desestruturação em React
+- Spread Operator em React
+
+Há mais JavaScript do que React
+
+- ENTRANDO NO REACT DEPOIS DE APRENDER JAVASCRIPT
+Quando você entra no mundo do React, muitas vezes você é confrontado com um Componente de Classe React:
+*/
+
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1>
+            Hello React
+          </h1>
+          <a href="https://reactjs.org">
+            Learn React
+          </a>
+        </header>
+      </div>
+    );
+  }
+}
+export default App;
+
+/*
+Em um componente de classe React, há muitas coisas para digerir para iniciantes que não são necessariamente React: declarações de classe, métodos de classe e herança, por ser uma classe. Também os comandos de importação JavaScript estão apenas adicionando complexidade quando se aprende React. Mesmo que o foco principal deva ser JSX (a sintaxe do React) -- tudo na declaração de retorno -- no início, muitas vezes todas as coisas ao redor também exigem explicações. Este artigo deve lançar alguma luz em todas as coisas ao redor, a maioria JavaScript, sem se preocupar muito com o React.
+
+- AULAS DE REACT E JAVASCRIPT
+
+Ser confrontado com um componente de classe React, requer o conhecimento prévio sobre classes JavaScript. Supõe-se que esse conhecimento é dado, mas não é, pois as classes JavaScript são bastante novas na linguagem. Anteriormente, havia apenas a cadeia de protótipos do JavaScript que também era usada para herança. As classes JavaScript são construídas sobre a herança prototípica dando a tudo isso uma representação mais simples com açúcar sintáctico.
+
+Para entender as classes JavaScript, você pode levar algum tempo para aprender sobre elas sem React:
+*/
+
+class Developer {
+  constructor(firstname, lastname) {
+    this.firstname = firstname;
+    this.lastname = lastname;
+  }
+  getName() {
+    return this.firstname + ' ' + this.lastname;
+  }
+}
+var me = new Developer('Robin', 'Wieruch');
+console.log(me.getName());
+
+/*
+Uma classe descreve uma entidade que é usada como um plano para criar uma instância dessa entidade. Uma vez criada uma instância da classe com o novo comando, o construtor da classe é chamado de instância que instancia a instância da classe. Portanto, uma classe pode ter propriedades que normalmente estão localizadas em seu construtor. Além disso, métodos de classe (ex. getName()) são usados para ler (ou escrever) dados da instância. A instância da classe é representada como o objeto dentro da classe, mas fora da instância é apenas atribuída a uma variável JavaScript.
+
+Normalmente as classes são usadas para herança na programação orientada a objetos. Elas são usadas para o mesmo em JavaScript enquanto a instrução 'extends' pode ser usada para herdar com uma classe de outra classe. A classe mais especializada herda todas as habilidades da classe mais geral com o comando extends, e pode adicionar suas habilidades especializadas a ela:
+
+class Developer {
+  constructor(firstname, lastname) {
+    this.firstname = firstname;
+    this.lastname = lastname;
+  }
+  getName() {
+    return this.firstname + ' ' + this.lastname;
+  }
+}*/
+class ReactDeveloper extends Developer {
+  getJob() {
+    return 'React Developer';
+  }
+}
+var me = new ReactDeveloper('Robin', 'Wieruch');
+//console.log(me.getName());
+console.log(me.getJob());
+
+/*
+Basicamente, é tudo o que é necessário para entender plenamente os componentes da classe React. Uma classe JavaScript é usada para definir um componente React, mas como você pode ver, o componente React é apenas um "componente React" porque ele herda todas as habilidades da classe React Component real que é importada do pacote React:
+ */
+
+import React, { Component } from 'react';
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Welcome to React</h1>
+      </div>
+    );
+  }
+}
+export default App;
+
+/*
+É por isso que o método render() é obrigatório nos componentes da classe React: O Componente React do pacote React importado instrui você a usá-lo para exibir algo no navegador. Além disso, sem o Componente React, você não poderia usar outros métodos de ciclo de vida. Por exemplo, não haveria um método de ciclo de vida componentDidMount(), porque o componente seria uma instância de uma classe JavaScript puro. E não apenas os métodos de ciclo de vida iriam embora, os métodos da API React como this.setState() para gerenciamento do estado local também não estariam disponíveis.
+
+Entretanto, como você já viu, o uso de uma classe JavaScript é benéfico para estender a classe geral com seu comportamento especializado. Assim, você pode introduzir seus próprios métodos de classe ou propriedades.
+
+*/
+
+import React, { Component } from 'react';
+class App extends Component {
+  getGreeting() {
+    return 'Welcome to React';
+  }
+  render() {
+    return (
+      <div>
+        <h1>{this.getGreeting()}</h1>
+      </div>
+    );
+  }
+}
+export default App;
+
+/*
+Agora você sabe porque o React usa classes JavaScript para definir os componentes da classe React. Elas são utilizadas quando você precisa acessar a API do React (métodos de ciclo de vida, this.state e this.setState()). A seguir, você verá como os componentes React podem ser definidos de uma maneira diferente sem o uso de uma classe JavaScript.
+
+Afinal, as classes JavaScript dão as boas vindas ao uso de herança no React, o que não é um resultado desejado para o React, pois o React favorece a composição em detrimento da herança. Portanto, a única classe que você deve estender de seus componentes React deve ser o React Component oficial.
+
+- ARROQ FUNCTIONS EM REACT
+
+Ao ensinar alguém sobre React, eu explico as arrow functions JavaScript muito cedo. Elas são uma das adições da linguagem JavaScript no ES6 que impulsionaram o JavaScript para frente na programação funcional.
+
+*/
+
+// JavaScript ES5 function
+function getGreeting() {
+  return 'Welcome to JavaScript';
+}
+// JavaScript ES6 arrow function with body
+const getGreeting = () => {
+  return 'Welcome to JavaScript';
+}
+// JavaScript ES6 arrow function without body and implicit return
+const getGreeting = () =>
+  'Welcome to JavaScript';
+
+/*
+As arrow functions JavaScript são frequentemente utilizadas em aplicações React para manter o código conciso e legível. Eu as amo, as ensino cedo, mas sempre tento refatorar minhas funções de JavaScript ES5 para funções ES6 ao longo do caminho. Em algum momento, quando as diferenças entre as funções JavaScript ES5 e as funções JavaScript ES6 se tornam claras, eu me atenho à maneira JavaScript ES6 de fazer isso com as arrow functions. Entretanto, eu sempre vejo que muitas sintaxes diferentes podem ser esmagadoras para os iniciantes do React. Então eu tento deixar claras as diferentes características das funções JavaScript antes de ir com tudo usando-as no React. Nas seções seguintes, você verá como as funções de seta JavaScript são comumente usadas no React.
+
+- FUNÇÕES COMO COMPONENTES EM REACT
+
+React utiliza o melhor de diferentes paradigmas de programação. Isso só é possível porque o JavaScript é uma linguagem de programação multifacetada. No lado da programação orientada a objetos, os componentes de classe do React são uma ótima maneira de alavancar as habilidades das classes JavaScript (herança para a API do componente React, métodos de classe e propriedades de classe como this.setState() e this.state). Por outro lado, existem muitos conceitos de programação funcional usados no React (e seu ecossistema) também. Por exemplo, os componentes funcionais do React são outra forma de definir componentes no React. A questão que levou aos componentes de função no React: E se os componentes pudessem ser usados como funções?
+*/
+
+function (props) {
+  return view;
+}
+
+/*
+É uma função que recebe uma entrada (por exemplo, props) e retorna os elementos HTML exibidos (view). Sob a capa, a função só precisa usar o mecanismo de render() dos componentes React: 
+*/
+
+function Greeting(props) {
+  return <h1>{props.greeting}</h1>;
+}
+
+/*
+Componentes funcionais são a forma preferida de definir componentes em React. Eles têm menos boilerplate, adicionam menos complexidade e são mais simples de manter do que os componentes da classe React. Você pode facilmente migrar seus componentes de classe para componentes de função com React Hooks.
+
+Anteriormente, o artigo mencionava as funções de seta JavaScript e como elas melhoram seu código React. Vamos aplicar este tipo de funções aos seus componentes de função. O componente de saudação anterior tem dois visuais diferentes com JavaScript ES5 e ES6:
+*/
+
+// JavaScript ES5 function
+function Greeting(props) {
+  return <h1>{props.greeting}</h1>;
+}
+// JavaScript ES6 arrow function
+const Greeting = (props) => {
+  return <h1>{props.greeting}</h1>;
+}
+// JavaScript ES6 arrow function
+// without body and implicit return
+const Greeting = (props) =>
+  <h1>{props.greeting}</h1>;
+
+/*
+As arrow functions JavaScript são uma ótima maneira de manter seus componentes funcionais em React concisamente. Ainda mais quando não há cálculo no meio e assim o corpo da função e a declaração de retorno podem ser deixados de fora.
+
+- SINTAXE DOS COMPONENTES DA CLASSE DE REAÇÃO
+
+A forma de reagir do React evoluiu ao longo do tempo. Em seus estágios iniciais, o método React.createClass() foi a forma padrão de criação de um componente da classe React. Atualmente, ele não é mais utilizado, pois com o surgimento do JavaScript ES6, a sintaxe dos componentes da classe React anteriormente utilizada tornou-se o padrão (somente antes da introdução dos componentes da função React).
+
+Entretanto, o JavaScript está evoluindo constantemente e, portanto, os entusiastas do JavaScript estão sempre buscando novas formas de fazer as coisas. É por isso que você encontrará muitas vezes sintaxes diferentes para os componentes da classe React. Uma maneira de definir um componente de classe React, com estado e métodos de classe, é a seguinte:
+
+*/
+
+class Counter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      counter: 0,
+    };
+    this.onIncrement = this.onIncrement.bind(this);
+    this.onDecrement = this.onDecrement.bind(this);
+  }
+  onIncrement() {
+    this.setState(state => ({ counter: state.counter + 1 }));
+  }
+  onDecrement() {
+    this.setState(state => ({ counter: state.counter - 1 }));
+  }
+  render() {
+    return (
+      <div>
+        <p>{this.state.counter}</p>
+        <button
+          onClick={this.onIncrement}
+          type="button"
+        >
+          Increment
+        </button>
+        <button
+          onClick={this.onDecrement}
+          type="button"
+        >
+          Decrement
+        </button>
+      </div>
+    );
+  }
+}
+
+/*
+Entretanto, ao implementar lotes de componentes de classe React, a ligação de métodos de classe no construtor -- e ter um construtor em primeiro lugar -- torna-se um tedioso detalhe de implementação. Felizmente, existe uma sintaxe curta para se livrar de ambos:
+*/
+
+class Counter extends Component {
+  state = {
+    counter: 0,
+  };
+  onIncrement = () => {
+    this.setState(state => ({ counter: state.counter + 1 }));
+  }
+  onDecrement = () => {
+    this.setState(state => ({ counter: state.counter - 1 }));
+  }
+  render() {
+    return (
+      <div>
+        <p>{this.state.counter}</p>
+        <button
+          onClick={this.onIncrement}
+          type="button"
+        >
+          Increment
+        </button>
+        <button
+          onClick={this.onDecrement}
+          type="button"
+        >
+          Decrement
+        </button>
+      </div>
+    );
+  }
+}
+
+/*
+Ao usar arrow funtions JavaScript, você pode auto-vincular métodos de classe sem ter que ligá-los no construtor. Também é possível deixar o construtor de fora, quando não estiver usando as props, definindo o estado diretamente como uma propriedade de classe.
+
+Nota: Esteja ciente que as propriedades da classe ainda não estão na linguagem JavaScript). Portanto, você pode dizer que esta forma de definir um componente de classe React é muito mais concisa do que a outra versão.
+
+- MODELOS LITERAIS EM REACT
+
+Os templates literais são outra característica específica da linguagem JavaScript que veio com o JavaScript ES6. Vale a pena mencioná-lo em breve, pois quando as pessoas novas em JavaScript e React vêem-nos, também podem gerar confusão. Ao aprender JavaScript, é a seguinte sintaxe que você aprende para concatenar uma string:
+*/
+
+function getGreeting(what) {
+  return 'Welcome to ' + what;
+}
+const greeting = getGreeting('JavaScript');
+console.log(greeting);
+// Welcome to JavaScript
+
+//Os modelos literais podem ser usados para o que é chamado de interpolação de strings:
+
+function getGreeting(what) {
+  return `Welcome to ${what}`;
+}
+
+/*
+Você só tem que usar cráses e a notação ${} para inserir primitivos JavaScript. No entanto, os literais de string não são usados apenas para interpolação de string, mas também para strings multilinhas em JavaScript:
+*/
+
+function getGreeting(what) {
+  return `
+    Welcome
+    to
+    ${what}
+  `;
+}
+
+/*
+Basicamente, é assim que blocos de texto maiores podem ser formatados em várias linhas. Por exemplo, isso pode ser visto com a recente introdução do GraphQL no JavaScript, pois as consultas ao GraphQL são compostas com literais de template. Também o React Styled Components faz uso de modelos literais.
+
+- MAP, REDUCE E FILTER EM REACT
+
+Qual é a melhor abordagem para ensinar a sintaxe JSX para iniciantes do React? Normalmente eu começo com a definição de uma variável no método render() e uso-a como JavaScript em HTML no bloco de retorno.
+
+*/
+
+import React from 'react';
+const App = () => {
+  var greeting = 'Welcome to React';
+  return (
+    <div>
+      <h1>{greeting}</h1>
+    </div>
+  );
+};
+export default App;
+
+/*
+Você só precisa usar as chaves {} para obter seu JavaScript em HTML. Partir de renderizar uma string para um objeto complexo não é diferente.
+*/
+
+import React from 'react';
+const App = () => {
+  var user = { name: 'Robin' };
+  return (
+    <div>
+      <h1>{user.name}</h1>
+    </div>
+  );
+}
+export default App;
+
+/*
+Normalmente a próxima pergunta então é: Como fazer uma lista de itens? Essa é uma das melhores partes sobre como explicar React, na minha opinião. Não existe uma API específica do React, como um atributo personalizado em uma tag HTML que permite renderizar múltiplos itens no React. Você pode usar JavaScript simples para iterar sobre a lista de itens e retornar HTML para cada item.
+*/
+
+import React from 'react';
+const App = () => {
+  var users = [
+    { name: 'Robin' },
+    { name: 'Markus' },
+  ];
+  return (
+    <ul>
+      {users.map(function (user) {
+        return <li>{user.name}</li>;
+      })}
+    </ul>
+  );
+};
+export default App;
+/*
+Tendo usado a arrow function JavaScript antes, você pode se livrar do corpo da função e da declaração de retorno que deixa sua saída renderizada muito mais concisa.
+
+*/
+
+import React from 'react';
+const App = () => {
+  var users = [
+    { name: 'Robin' },
+    { name: 'Markus' },
+  ];
+  return (
+    <ul>
+      {users.map(user => <li>{user.name}</li>)}
+    </ul>
+  );
+}
+export default App;
+
+/*
+Em breve, todo desenvolvedor React se acostumará com os métodos embutidos de mapa JavaScript() para arrays. Faz bastante sentido mapear sobre um array e retornar a saída renderizada para cada item. O mesmo pode ser aplicado para casos customizados onde filter() ou reduce() faz mais sentido do que renderizar uma saída para cada item mapeado.
+*/
+
+import React from 'react';
+const App = () => {
+  var users = [
+    { name: 'Robin', isDeveloper: true },
+    { name: 'Markus', isDeveloper: false },
+  ];
+  return (
+    <ul>
+      {users
+        .filter(user => user.isDeveloper)
+        .map(user => <li>{user.name}</li>)
+      }
+    </ul>
+  );
+};
+export default App;
+
+//Em geral, é assim que os desenvolvedores React estão se acostumando com essas funções embutidas do JavaScript sem ter que usar uma API específica do React para isso. É apenas JavaScript em HTML.
+
+/*
+VAR, LET, E CONST EM REACT
+Também as diferentes declarações de variáveis com var, let e const podem ser confusas para iniciantes em React mesmo que não sejam específicas do React. Talvez seja porque o JavaScript ES6 foi introduzido quando o React se tornou popular. Em geral, eu tento introduzir let e const muito cedo em meus workshops. Ele simplesmente começa com a troca de var com const em um componente React:
+
+*/
+
+import React from 'react';
+const App = () => {
+  const users = [
+    { name: 'Robin' },
+    { name: 'Markus' },
+  ];
+  return (
+    <ul>
+      {users.map(user => <li>{user.name}</li>)}
+    </ul>
+  );
+};
+export default App;
+
+/*
+Em seguida, dou as regras de quando usar qual declaração de variável:
+
+(1)não usar mais var, porque let e const são mais específicas
+(2)por default use const, pois não pode ser reatribuído ou decretado de novo
+(3)usar let ao reatribuir a variável
+Enquanto let é normalmente usado em um loop para incrementar o iterador, const é normalmente usado para manter as variáveis JavaScript inalteradas. Embora seja possível alterar as propriedades internas de objetos e matrizes ao usar const, a declaração da variável mostra a intenção de manter a variável inalterada.
+
+
+- OPERADOR TERNÁRIO EM REACT
+
+Mas não termina com a exibição de strings, objetos e arrays JavaScript em React. Que tal uma declaração de if-else para permitir a renderização condicional? Você não pode usar uma declaração if-else diretamente no JSX, mas você pode retornar antecipadamente a partir da função de renderização. Retornar nulo é válido no React quando não estiver exibindo nada.
+
+
+*/
+
+import React from 'react';
+const App = () => {
+  const users = [
+    { name: 'Robin' },
+    { name: 'Markus' },
+  ];
+  const showUsers = false;
+  if (!showUsers) {
+    return null;
+  }
+  return (
+    <ul>
+      {users.map(user => <li>{user.name}</li>)}
+    </ul>
+  );
+};
+export default App;
+
+//Entretanto, se você quiser usar uma declaração if-else dentro do JSX retornado, você pode fazê-lo usando um operador ternário JavaScript:
+
+import React from 'react';
+const App = () => {
+  const users = [
+    { name: 'Robin' },
+    { name: 'Markus' },
+  ];
+  const showUsers = false;
+  return (
+    <div>
+      {showUsers ? (
+        <ul>
+          {users.map(user => (
+            <li>{user.name}</li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  );
+};
+export default App;
+
+//Outra maneira de fazer isso, se você retornar apenas um lado da renderização condicional de qualquer maneira, é usando o && operador:
+
+import React from 'react';
+const App = () => {
+  const users = [
+    { name: 'Robin' },
+    { name: 'Markus' },
+  ];
+  const showUsers = false;
+  return (
+    <div>
+      {showUsers && (
+        <ul>
+          {users.map(user => (
+            <li>{user.name}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+export default App;
+
+/*
+Não vou entrar em detalhes do porquê disto funcionar, mas se você estiver curioso, pode aprender sobre isto e outras técnicas de renderização condicional por aqui (https://www.robinwieruch.de/conditional-rendering-react/): Todas as renderizações condicionais em React. Afinal, a renderização condicional no React só mostra novamente que a maioria do React é apenas JavaScript no JSX e não qualquer coisa específica do React.
+
+- DECLARAÇÕES DE IMPORTAÇÃO E EXPORTAÇÃO EM REACT
+
+Felizmente, a comunidade JavaScript se estabeleceu em uma forma de importar e exportar funcionalidades de arquivos com JavaScript ES6 com declarações de importação e exportação.
+
+Entretanto, sendo novos no React e no JavaScript ES6, esses comandos de importação e exportação são apenas mais um tópico que requer explicação ao iniciar sua primeira aplicação React. Muito cedo você terá suas primeiras importações para CSS, SVG ou outros arquivos JavaScript. O projeto create-react-app já começa com esses comandos de importação:
+*/
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <h1>
+          Hello React
+        </h1>
+        <a href="https://reactjs.org">
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
+}
+export default App;
+
+/*
+É ótimo para o projeto inicial, pois oferece uma experiência completa de como outros arquivos podem ser importados e (exportados). Também o componente App é importado no arquivo src/index.js. Entretanto, ao fazer seus primeiros passos no React, eu tento evitar essas importações no início. Ao invés disso, eu tento focar nos componentes JSX e React. Somente mais tarde as instruções de importação e exportação são introduzidas ao separar o primeiro componente React ou função JavaScript em outro arquivo.
+
+Então, como funcionam esses comandos de importação e exportação? Digamos que em um arquivo você queira exportar as seguintes variáveis:
+
+*/
+
+const firstname = 'Robin';
+const lastname = 'Wieruch';
+export { firstname, lastname };
+
+//Então você pode importá-las em outro arquivo com o caminho relativo do primeiro arquivo
+
+import { firstname, lastname } from './file1.js'
+
+console.log(firstname)
+//output 'Robin'
+
+/*
+Portanto, não se trata necessariamente de importar/exportar componentes ou funções, trata-se de compartilhar tudo o que é atribuível a uma variável (deixando de fora as importações/exportações de CSS ou SVG, mas falando apenas do JS). Você também pode importar todas as variáveis exportadas de outro arquivo como um objeto:
+*/
+
+import * as person from 'file1.js'
+
+console.log(person.firstname)
+//output 'Robin'
+
+/*
+Importações podem ter um pseudônimo. Pode acontecer de você importar funcionalidades de múltiplos arquivos que tenham o mesmo nome de exportação. É por isso que você pode usar um alias:
+*/
+
+import { firstname as username } from './file1.js';
+console.log(username);
+// output: Robin
+
+/*
+Todos os casos anteriores são denominados de importação e exportação. Mas também existe a declaração default. Ele pode ser usado para alguns casos de uso:
+
+- para exportar e importar uma única funcionalidade
+- para destacar a principal funcionalidade da API exportada de um módulo
+- para ter uma funcionalidade de importação de fallback
+*/
+
+const robin = {
+  firstname: 'Robin',
+  lastname: 'Wieruch',
+};
+export default robin;
+
+/*
+Deixe de fora as chaves para a importação para importar a exportação padrão:
+*/
+
+import developer from './file1.js';
+console.log(developer);
+// output: { firstname: 'Robin', lastname: 'Wieruch' }
+
+//Além disso, o nome de importação pode ser diferente do nome padrão exportado. Você também pode utilizá-lo em conjunto com as declarações de exportação e importação nomeadas:
+
+const firstname = 'Robin';
+const lastname = 'Wieruch';
+const person = {
+  firstname,
+  lastname,
+};
+export {
+  firstname,
+  lastname,
+};
+export default person;
+
+//E importar o default ou as exportações nomeadas em outro arquivo:
+
+import developer, { firstname, lastname } from 'file1.js'
+console.log(developer)
+// output: {firstname: 'Robin', lastname: 'Wieruch'}
+
+console.log(firstname, lastname)
+// output: Robin Wieruch
+
+//Você também pode dispensar linhas adicionais e exportar as variáveis diretamente para exportações nomeadas:
+
+export const firstname = 'Robin';
+export const lastname = 'Wieruch';
+
+/*
+Estas são as principais funcionalidades para os módulos ES6. Elas ajudam você a organizar seu código, a manter seu código e a projetar APIs de módulos reutilizáveis. Você também pode exportar e importar funcionalidades para testá-las.
+
+- BIBLIOTECAS EM REACT
+React oferece recursos de gerenciamento de estado e efeitos colaterais, mas, além disso, é apenas uma biblioteca de componentes que renderiza HTML para o seu navegador. Tudo o resto pode ser adicionado a partir de APIs (por exemplo, API do navegador, API do DOM), funcionalidades JavaScript (por exemplo, map, filter, reduce) ou bibliotecas externas. Nem sempre é simples escolher a biblioteca certa para complementar sua aplicação React, mas uma vez que você tenha uma boa visão geral das diferentes opções, você pode escolher a que melhor se encaixa na sua stack de tecnologia.
+
+Por exemplo, a busca de dados no React pode ser feita com a API nativa do fetch:
+*/
+
+import React, { Component } from 'react';
+class App extends Component {
+  state = {
+    data: null,
+  };
+  componentDidMount() {
+    fetch('https://api.mydomain.com')
+      .then(response => response.json())
+      .then(data => this.setState({ data }));
+  }
+  render() {
+    ...
+  }
+}
+export default App;
+
+//Mas cabe a você usar outra biblioteca para ir buscar dados em React. O Axios é uma escolha popular para aplicações React:
+
+import React, { Component } from 'react';
+import axios from 'axios';
+class App extends Component {
+  state = {
+    data: null,
+  };
+  componentDidMount() {
+    axios.get('https://api.mydomain.com')
+      .then(response => this.setState({ data: response.data }));
+  }
+  render() {
+    ...
+  }
+}
+export default App;
+
+/*
+Logo, assim que você souber sobre o problema que precisa ser resolvido, o extenso e inovador ecossistema da React deve lhe dar muitas opções para resolvê-lo. Novamente não se trata de React, mas de conhecer todas as diferentes bibliotecas JavaScript que podem ser usadas para complementar a sua aplicação.
+
+- ASYNC / AWAIT EM REACT
+Em um componente funcional em React, a busca de dados parece ligeiramente diferente com React Hooks:
+
+*/
+
+import React from 'react';
+import axios from 'axios';
+const App = () => {
+  const [data, setData] = React.useState(null);
+  React.useEffect(() => {
+    const fetchData = () => {
+      axios.get('https://api.mydomain.com')
+        .then(response => setData(response.data));
+    };
+    fetchData();
+  }, []);
+  return (
+    ...
+  );
+};
+export default App;
+
+/*
+No trecho de código anterior, usamos a forma mais comum de resolver uma promessa com um bloco then. Falta o bloco catch para manipulação de erros para manter o exemplo simples. Por favor leia um dos tutoriais referenciados para saber mais sobre como buscar dados em React com manipulação de erros.
+
+De qualquer forma, você também pode usar async/await que foi introduzido ao JavaScript não há muito tempo:
+*/
+
+import React from 'react';
+import axios from 'axios';
+const App = () => {
+  const [data, setData] = React.useState(null);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get('https://api.mydomain.com');
+      setData(response.data);
+    };
+    fetchData();
+  }, []);
+  return (
+    ...
+  );
+};
+export default App;
+
+//No final, async/await é apenas mais uma forma de resolver promessas em JavaScript assíncrono.
+
+/*
+- FUNÇÕES DE ORDEM SUPERIOR EM REACT
+
+Funções de ordem superior são um grande conceito de programação, especialmente quando se caminha para a programação funcional. Em React, faz total sentido saber sobre este tipo de funções, pois em algum momento você tem que lidar com componentes de ordem superior que podem ser melhor explicados quando se conhece as funções de ordem superior em primeiro lugar.
+
+Funções de ordem superior podem ser mostradas no React logo no início, sem a introdução de componentes de ordem superior. Por exemplo, vamos dizer que uma lista renderizada de usuários pode ser filtrada com base no valor de um campo de entrada.
+*/
+
+import React from 'react';
+const App = () => {
+  const users = [{ name: 'Robin' }, { name: 'Markus' }];
+  const [query, setQuery] = React.useState('');
+  const handleChange = event => {
+    setQuery(event.target.value);
+  };
+  return (
+    <div>
+      <ul>
+        {users
+          .filter(user => user.name.includes(query))
+          .map(user => (
+            <li>{user.name}</li>
+          ))}
+      </ul>
+      <input type="text" onChange={handleChange} />
+    </div>
+  );
+};
+export default App;
+
+/*
+Nem sempre é desejado extrair funções, pois pode acrescentar complexidade desnecessária, mas, por outro lado, pode ter efeitos de aprendizagem benéficos para o JavaScript. Além disso, ao extrair uma função, você a torna testável isoladamente do componente React. Então vamos mostrá-lo com a função que é fornecida para a função de filter.
+*/
+
+import React from 'react';
+function doFilter(user) {
+  return user.name.includes(query);
+}
+const App = () => {
+  const users = [{ name: 'Robin' }, { name: 'Markus' }];
+  const [query, setQuery] = React.useState('');
+  const handleChange = event => {
+    setQuery(event.target.value);
+  };
+  return (
+    <div>
+      <ul>
+        {users.filter(doFilter).map(user => (
+          <li>{user.name}</li>
+        ))}
+      </ul>
+      <input type="text" onChange={handleChange} />
+    </div>
+  );
+};
+export default App;
+
+/*
+A implementação anterior não funciona porque a função doFilter() precisa saber sobre a propriedade da consulta do estado. Então você pode passá-la para a função, envolvendo-a com outra função que leva a uma função de ordem superior.
+*/
+
+import React from 'react';
+function doFilter(query) {
+  return function(user) {
+    return user.name.includes(query);
+  };
+}
+const App = () => {
+  const users = [{ name: 'Robin' }, { name: 'Markus' }];
+  const [query, setQuery] = React.useState('');
+  const handleChange = event => {
+    setQuery(event.target.value);
+  };
+  return (
+    <div>
+      <ul>
+        {users.filter(doFilter(query)).map(user => (
+          <li>{user.name}</li>
+        ))}
+      </ul>
+      <input type="text" onChange={handleChange} />
+    </div>
+  );
+};
+export default App;
+
+/*
+Basicamente, uma função de ordem superior é uma função que retorna uma função. Ao utilizar as arrow functions JavaScript ES6, você pode tornar uma função de ordem superior mais concisa. Além disso, esta versão abreviada torna mais atrativa a composição de funções em funções.
+*/
+
+const doFilter = query => user =>
+  user.name.includes(query);
+
+/*
+Agora, a função doFilter() pode ser exportada do arquivo e testada isoladamente como função pura (ordem superior). Depois de aprender sobre funções de ordem superior, todo o conhecimento fundamental foi estabelecido para aprender mais sobre os componentes de ordem superior do React, se você quiser aprender sobre esta técnica avançada no React: (https://www.robinwieruch.de/react-higher-order-components). Mover funções em torno de sua base de código é uma ótima maneira de aprender sobre os benefícios de ter funções como cidadãos de primeira classe em JavaScript. É poderoso ao mover o seu código em direção à programação funcional.
+
+- ATRIBUIÇÃO DE SHORTHAND OBJECT
+Há uma pequena adição na linguagem JavaScript que deixa os iniciantes confusos. No JavaScript ES6, você pode usar uma sintaxe de propriedade curta para inicializar seus objetos de forma mais concisa, como por exemplo, seguir a inicialização do objeto:
+*/
+
+const name = 'Robin';
+const user = {
+  name: name,
+};
+
+//Quando o nome da propriedade no seu objeto é o mesmo do seu nome de variável, você pode fazer o seguinte:
+
+const name = 'Robin';
+const user = {
+  name,
+};
+console.log(user)
+//output: {name: 'Robin'}
+
+//Nomes curtos de métodos também são úteis. No JavaScript ES6, você pode inicializar os métodos em um objeto de forma mais concisa:
+
+// without shorthand method names
+var userService = {
+  getUserName: function (user) {
+    return user.firstname + ' ' + user.lastname;
+  },
+};
+// shorthand method names
+const userService = {
+  getUserName(user) {
+    return user.firstname + ' ' + user.lastname;
+  },
+};
+
+//Finalmente, você está autorizado a usar nomes de propriedades computadas no JavaScript ES6:
+
+// uso normal de uma propriedade em um objeto
+var user = {
+  name: 'Robin',
+};
+// computed key property for dynamic naming
+const key = 'name';
+const user = {
+  [key]: 'Robin',
+};
+
+/*
+Você é capaz de usar nomes de propriedades computadas para alocar valores por chave em um objeto dinamicamente, uma maneira prática de gerar tabelas de pesquisa (também chamadas de dicionários) em JavaScript.
+
+- DESESTRUTURAÇÃO(destructuring) EM REACT
+Outra funcionalidade da linguagem introduzida no JavaScript chama-se desestruturação. É frequentemente o caso de ter de acessar a muitas propriedades de estado ou props no seu componente. Ao invés de atribuí-las a uma variável uma a uma, você pode usar a atribuição de desestruturação em JavaScript.
+*/
+
+const state = { counter: 1, list: ['a', 'b'] };
+// no object destructuring
+const list = state.list;
+const counter = state.counter;
+
+// object destructuring
+const { list, counter } = state;
+
+/*
+Isso é especialmente benéfico para os componentes funcionais do React, porque eles recebem sempre o objeto de props na sua assinatura de função. Muitas vezes você não utilizará as props, mas apenas o seu conteúdo, para que você possa desestruturar o conteúdo na assinatura da função.
+*/
+
+// no destructuring
+function Greeting(props) {
+  return <h1>{props.greeting}</h1>;
+}
+// destructuring
+function Greeting({ greeting }) {
+  return <h1>{greeting}</h1>;
+}
+
+//A desestruturação também funciona para arrays JavaScript:
+
+const list = ['a', 'b'];
+// no array destructuring
+const itemOne = list[0];
+const itemTwo = list[1];
+// array destructuring
+const [itemOne, itemTwo] = list;
+
+//Como você já viu, o React Hooks está usando a desestruturação do array para acessar a função de estado e de atualização de estado.
+
+import React from 'react';
+const Counter = () => {
+  const [count, setCount] = React.useState(0);
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+};
+export default Counter;
+
+//Outra grande característica é a desestruturação do resto. É frequentemente usada para dividir uma parte de um objeto, mas mantendo as propriedades restantes em outro objeto.
+
+const state = { counter: 1, list: ['a', 'b'] };
+// rest destructuring
+const { list, ...rest } = state;
+console.log(rest);
+// output: { counter: 1 }
+console.log(list);
+// output: ['a', 'b']
+
+/*
+Depois disso, a lista pode ser usada para ser apresentada, por exemplo, em um componente React, enquanto o estado restante (aqui contador) é usado em outro lugar. É aí que o spread operator JavaScript entra em jogo para encaminhar o objeto restante para o próximo componente. Na próxima seção, você verá este operador em ação.
+
+- SPREAD OPERATOR NO REACT
+O operador de propagação vem com três pontos ..., mas não deve ser confundido com o resto do operador. Depende do contexto em que é usado. Utilizado dentro de uma desestruturação (ver acima), é como operador de rest. Usado em outro lugar, é um operador de propagação.
+*/
+
+const userCredentials = { firstname: 'Robin' };
+const userDetails = { nationality: 'German' };
+const user = {
+  ...userCredentials,
+  ...userDetails,
+};
+console.log(user);
+// output: { firstname: 'Robin', nationality: 'German' }
+
+/*O operador de propagação espalha literalmente todos os pares de valores chave de um objeto. Em React, ele vem a calhar quando as props estão apenas a ser passadas para o próximo componente.*/
+
+import React from 'react';
+const App = () => {
+  const users = [
+    { name: 'Robin', nationality: 'German' },
+    { name: 'Markus', nationality: 'American' },
+  ];
+  return (
+    <ul>
+      {users.map(user => <li>
+        <User
+          name={user.name}
+          nationality={user.nationality}
+        />
+      </li>)}
+    </ul>
+  );
+};
+const User = ({ name, nationality }) =>
+  <span>{name} from {nationality}</span>;
+export default App;
+
+//Ao invés de passar todas as propriedades de um objeto por propriedade, você pode usar o operador de spread para passar todos os pares de valores chave para o próximo componente.
