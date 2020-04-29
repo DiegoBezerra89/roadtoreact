@@ -1,5 +1,5 @@
 /*JSX - MISTURAR HTML E JAVASCRIPT
-React vem com sua própria sintaxe para construir componentes chamados JSX. No JSX você pode misturar HTML e JavaScript. Além disso, as pessoas frequentemente usam estilos inline em seus elementos. É como adicionar CSS na mistura. Pode ser confuso no início, mas parece natural eventualmente. Você pode usar JavaScript para compor e manipular seu DOM, mas ele é inline em seu HTML. Você pode usar funcionalidades JavaScript embutidas como mapa e filtro para exibir múltiplos (filtrados) nós de DOM. Mas você também pode usar ternários para fazer renderizações condicionais acontecerem. Você pode usar todo o poder do JavaScript no seu HTML.
+React vem com sua própria sintaxe para construir componentes chamados JSX. No JSX você pode misturar HTML e JavaScript. Além disso, as pessoas frequentemente usam estilos inline em seus elementos. É como adicionar CSS na mistura. Pode ser confuso no início, mas parece natural eventualmente. Você pode usar JavaScript para compor e manipular seu DOM, mas ele é inline em seu HTML. Você pode usar funcionalidades JavaScript embutidas como mapa e filtro para exibir múltiplos (filtrados) NodeJSs de DOM. Mas você também pode usar ternários para fazer renderizações condicionais acontecerem. Você pode usar todo o poder do JavaScript no seu HTML.
 
 Na gama de soluções SPA foi uma nova abordagem para definir seus componentes com mistura de HTML e JavaScript. Em soluções antigas de renderização do lado do servidor (por exemplo, JSP) essa abordagem já estava presente.
 
@@ -1799,3 +1799,103 @@ const User = ({ name, nationality }) =>
 export default App;
 
 //Ao invés de passar todas as propriedades de um objeto por propriedade, você pode usar o operador de spread para passar todos os pares de valores chave para o próximo componente.
+
+/*
+HÁ MAIS JAVASCRIPT DO QUE REACT
+Em conclusão, há muito JavaScript que pode ser aproveitado em React. Enquanto o React tem apenas uma pequena área de superfície API, os desenvolvedores têm que se acostumar a todas as funcionalidades que o JavaScript tem a oferecer. O ditado não é sem nenhuma razão: "ser um desenvolvedor React faz de você um desenvolvedor JavaScript melhor". Vamos recapitular alguns dos aspectos aprendidos do JavaScript no React, refatorando um componente de ordem superior.
+*/
+
+function withLoading(Component) {
+  return class WithLoading extends React.Component {
+    render() {
+      const { isLoading, ...rest } = this.props;
+ 
+      if (isLoading) {
+        return <p>Loading</p>;
+      }
+ 
+      return <Component { ...rest } />;
+    }
+  }
+}
+
+/*
+Este componente de ordem superior só é usado para mostrar um indicador de loading condicional quando o isLoading prop é definido como verdadeiro. Caso contrário, ele renderiza o input. Você já pode ver a (rest) desestruturação a partir das props e do operador de spread para o próximo Componente. Este último pode ser visto para o componente renderizado, porque todas as propriedades restantes do objeto das props são passadas para o componente como propriedades do objeto.
+
+O primeiro passo para tornar o componente de maior ordem mais conciso é refatorar o componente de classe do React retornado para um componente de função:
+*/
+
+function withLoading(Component) {
+  return function ({ isLoading, ...rest }) {
+    if (isLoading) {
+      return <p>Loading</p>;
+    }
+ 
+    return <Component { ...rest } />;
+  };
+}
+
+/*
+Você pode ver que o resto da desestruturação também pode ser usado na assinatura da função. A seguir, usando as arrow functions JavaScript ES6 torna o componente de ordem superior mais conciso novamente:
+*/
+
+const withLoading = Component => ({ isLoading, ...rest }) => {
+  if (isLoading) {
+    return <p>Loading</p>;
+  }
+ 
+  return <Component { ...rest } />;
+}
+
+/*
+E adicionar o operador ternário encurta o corpo da função em uma linha de código. Assim, o corpo da função pode ser deixado de fora e a declaração de retorno pode ser omitida.
+*/
+
+const withLoading = Component => ({ isLoading, ...rest }) =>
+  isLoading
+    ? <p>Loading</p>
+    : <Component { ...rest } />
+
+/*
+Como você pode ver, o componente de ordem superior utiliza várias técnicas JavaScript e não React: arrow functions, funções de ordem superior, um operador ternário, desestruturação e o operador de propagação. Basicamente, é assim que as funcionalidades do JavaScript podem ser utilizadas em aplicações React.
+*/
+
+
+//##################################################
+
+/*
+- Requisitos
+
+Para seguir este livro você precisa estar familiarizado com os conceitos básicos de desenvolvimento web, ou seja, como usar HTML, CSS e JavaScript. Ele também ajuda a entender as APIs, uma vez que elas serão abordadas minuciosamente.
+
+- Editor e Terminal
+
+Eu forneci um guia de configuração(https://www.robinwieruch.de/developer-setup) para que você possa começar com o desenvolvimento web em geral. Para este aprendizado, você precisará de um editor de texto (por exemplo, Sublime Text) e uma ferramenta de linha de comando (por exemplo, iTerm) ou uma IDE (por exemplo, Visual Studio Code). Eu recomendo o Visual Studio Code (também chamado VS Code) para iniciantes, pois é uma solução tudo em um que fornece um editor avançado com uma ferramenta de linha de comando integrada, e porque é uma escolha popular entre desenvolvedores web.
+
+Ao longo deste aprendizado vou utilizar o termo linha de comando, que será utilizado como sinônimo para os termos ferramenta de linha de comando, terminal, e terminal integrado. O mesmo se aplica para os termos editor, editor de texto e IDE, dependendo do que você decidiu usar para sua configuração.
+
+Opcionalmente, eu recomendo gerenciar projetos no GitHub enquanto realizamos os exercícios deste livro, e eu forneci um pequeno guia(https://www.robinwieruch.de/git-essential-commands/) sobre como utilizar estas ferramentas. Github tem excelente controle de versão, assim você pode ver quais mudanças foram feitas se você cometer um erro ou apenas quer uma maneira mais direta de seguir adiante. É também uma ótima maneira de compartilhar seu código mais tarde com outras pessoas.
+
+Se você não quer configurar a combinação editor/terminal ou IDE em sua máquina local, o CodeSandbox, um editor online, também é uma alternativa viável. Enquanto o CodeSandbox é uma ótima ferramenta para compartilhar código online, a configuração de uma máquina local é uma ferramenta melhor para aprender as diferentes maneiras de criar uma aplicação web. Além disso, se você quiser desenvolver aplicações profissionalmente, uma configuração local será necessária.
+
+- NodeJS e NPM
+
+Antes de começarmos, precisaremos ter o NodeJS e o npm instalados. Ambos são usados para gerenciar bibliotecas (pacotes do Node) que você precisará ao longo do caminho. Estes pacotes do Node podem ser bibliotecas ou frameworks inteiros. Instalaremos pacotes de NodeJSs externos via npm (gerenciador de pacotes do Node).
+
+Você pode verificar as versões node e npm na linha de comando usando o comando node --version. Se você não receber a saída no terminal indicando qual versão está instalada, você precisa instalar o NodeJS e o npm:
+*/
+
+node --version
+*vXX.YY.ZZ
+
+/*
+Se você já instalou Node e npm, certifique-se de que sua instalação é a versão mais recente. Se você é novo no npm ou precisa de uma atualização, este curso rápido de NPM que criei o colocará em dia.(https://www.robinwieruch.de/npm-crash-course)
+*/
+
+//#######################################
+
+/*
+- Montagem de um Projeto em React
+No Road to React, usaremos o create-react-app para inicializar a sua aplicação. É um kit para iniciantes de configuração zero para o React introduzido pelo Facebook em 2016, que é recomendado para iniciantes por 96% dos usuários do React. No Create-react-app, as ferramentas e configurações evoluem em segundo plano, enquanto o foco continua sendo a implementação do aplicativo.
+
+Após a instalação do Node e npm, use a linha de comando para digitar o seguinte comando em uma pasta dedicada ao seu projeto. Vamos nos referir a este projeto como hacker-stories, mas você pode escolher qualquer nome que quiser:

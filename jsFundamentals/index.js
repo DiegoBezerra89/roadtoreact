@@ -467,3 +467,42 @@ const Counter = () => {
   );
 };
 export default Counter;
+//
+
+function withLoading(Component) {
+  return class WithLoading extends React.Component {
+    render() {
+      const { isLoading, ...rest } = this.props;
+      if(isLoading) {
+        return <p>Loading...</p>
+      }
+      return <Component { ...rest } />
+    }
+  }
+}
+
+function withLoading(Component) {
+  return function ({ isLoading, ...rest }) {
+    if (isLoading) {
+      return <p>Loading</p>
+    }
+
+    return <Component { ...rest } />
+  }
+}
+
+//
+
+const withLoading = Component => ({ isLoading, ...rest }) => {
+  if (isLoading) {
+    return <p>Loading...</p>
+  }
+  return <Component { ...rest } />
+}
+
+//
+
+const withLoading = Component => ({ isLoading, ...rest }) =>
+  isLoading
+    ? <p>Loading</p>
+    : <Component { ...rest } />
