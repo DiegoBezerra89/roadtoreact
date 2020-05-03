@@ -1899,3 +1899,500 @@ Se você já instalou Node e npm, certifique-se de que sua instalação é a ver
 No Road to React, usaremos o create-react-app para inicializar a sua aplicação. É um kit para iniciantes de configuração zero para o React introduzido pelo Facebook em 2016, que é recomendado para iniciantes por 96% dos usuários do React. No Create-react-app, as ferramentas e configurações evoluem em segundo plano, enquanto o foco continua sendo a implementação do aplicativo.
 
 Após a instalação do Node e npm, use a linha de comando para digitar o seguinte comando em uma pasta dedicada ao seu projeto. Vamos nos referir a este projeto como hacker-stories, mas você pode escolher qualquer nome que quiser:
+
+$ npx create-react-app hacker-stories
+
+Vá ao diretório criado após o processo ser finalizado 
+
+$ cd hacker-stories
+
+Agora podemos abrir a aplicação em um editor ou IDE. Para Visual Studio Code, você pode simplesmente digitar 'code .' na linha de comando. A seguinte estrutura de pastas, ou uma variação da mesma dependendo da versão create-react-app, deve ser apresentada:
+*/
+
+hacker-stories/
+--node_modules/
+--public/
+--src/
+----App.css
+----App.js
+----App.test.js
+----index.css
+----index.js
+----logo.svg
+--.gitignore
+--package-lock.json
+--package.json
+--README.md
+
+/*
+Esta é explicação das pastas e arquivos mais importantes:
+
+- README.md: A extensão .md indica que o arquivo é um arquivo markdown. Markdown é uma linguagem de marcação leve com sintaxe de formatação de texto simples. Muitos projetos de código fonte vêm com um arquivo README.md que dá instruções e informações úteis sobre o projeto. Quando subimos projetos para plataformas como o GitHub, o arquivo README.md normalmente exibe informações sobre o conteúdo contido em seus repositórios. Como você usou create-react-app, seu README.md deve ser o mesmo que o repositório oficial create-react-app do GitHub.
+
+- node_modules/: Esta pasta contém todos os pacotes do Node que foram instalados via npm. Como usamos o create-react-app, alguns módulos do node já estão instalados. Não vamos tocar nesta pasta, já que os pacotes do node são normalmente instalados e desinstalados com npm através da linha de comando.
+
+- package.json: Este arquivo mostra uma lista de dependências de pacotes do node e outras configurações de projeto.
+
+- package-lock.json: Este arquivo indica ao npm como quebrar todas as versões de pacotes do Node. Nós não vamos tocar neste arquivo.
+
+- .gitignore: Este arquivo exibe todos os arquivos e pastas que não devem ser adicionados ao seu repositório git quando o git estiver sendo utilizado, pois tais arquivos e pastas devem estar localizados apenas no seu projeto local. A pasta node_modules/ é um exemplo. É o suficiente para compartilhar o arquivo package.json com outros, assim eles podem instalar dependências no seu fim com npm install sem toda a sua pasta de dependências.
+
+- public/: Esta pasta contém arquivos de desenvolvimento, tais como public/index.html. O arquivo index é exibido no localhost:3000 quando o aplicativo está em desenvolvimento ou em um domínio que está hospedado em outro lugar. A configuração padrão relaciona este index.html com todos os JavaScript do src/.
+
+No início, tudo o que você precisa está localizado na pasta src/. O foco principal está no arquivo src/App.js que é usado para implementar os componentes React. Ele será usado para implementar sua aplicação, mas mais tarde você pode querer dividir seus componentes em vários arquivos, onde cada arquivo mantém um ou mais componentes por conta própria.
+
+Adicionalmente, você encontrará um arquivo src/App.test.js para seus testes, e um arquivo src/index.js como um ponto de entrada para o mundo React. Você conhecerá intimamente os dois arquivos em seções posteriores. Há também um arquivo src/index.css e um arquivo src/App.css para dar estilo à sua aplicação geral e componentes, que vem com o estilo padrão quando você os abre. Você irá modificá-los mais tarde também.
+
+Depois de conhecer a pasta e a estrutura de arquivos do seu projeto React, vamos passar pelos comandos disponíveis para que ele seja iniciado. Todos os comandos específicos do seu projeto podem ser encontrados em seu package.json sob a propriedade scripts. Eles podem parecer similares a estes:
+*/
+
+{
+  ...
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  ...
+}
+
+/*
+Estes scripts são executados com o comando npm run <script> em um terminal ou ferramenta de linha de comando integrada à IDE. A execução pode ser omitida para os scripts de início e teste. Os comandos são os seguintes:
+*/
+
+//Roda a aplicação em http://localhost:3000
+npm start
+ 
+//Roda os testes
+npm test
+ 
+//Faz o build da aplicação para prod
+npm run build
+
+/*
+Outro comando dos scripts npm anteriores chamado eject não deve ser usado para esta experiência de aprendizagem. É uma operação sem volta. Uma vez ejetado, você não pode voltar atrás. Essencialmente este comando só existe para tornar toda a ferramenta de construção e configuração do create-react-app acessível se você não estiver satisfeito com as escolhas ou se você quiser mudar alguma coisa. Mas aqui vamos manter todas as configurações padrão.
+*/
+
+//#######################################
+
+/*
+- Exercícios:
+
+- Leia um pouco mais através da documentação do create-react-app(https://github.com/facebook/create-react-app) e do guia de iniciação(https://create-react-app.dev/docs/getting-started/).
+Leia mais sobre os recursos JavaScript suportados em create-react-app.(https://create-react-app.dev/docs/supported-browsers-features/)
+
+- Leia mais sobre a estrutura de pastas em create-react-app(https://create-react-app.dev/docs/folder-structure/).
+
+- Conheça todas as pastas e arquivos do seu projeto React um a um.
+
+- Leia mais sobre os scripts em create-react-app.(https://create-react-app.dev/docs/available-scripts/)
+  - Inicie seu aplicativo React com o npm start na linha de comando e confira no navegador.
+    - Saia do comando na linha de comando pressionando Control + C.
+
+- Execute o script de teste do npm.
+
+- Execute o npm run build script e verifique se uma pasta build/ foi adicionada ao seu projeto (você pode removê-la depois). Note que a pasta build pode ser usada mais tarde para implantar sua aplicação.(https://www.robinwieruch.de/deploy-applications-digital-ocean)
+
+- Toda vez que alterarmos algo em nosso código durante a experiência de aprendizado, certifique-se de verificar a saída em seu navegador para obter feedback visual.
+*/
+
+/*
+- Conheça o Componente React
+
+Nosso primeiro componente React está no arquivo src/App.js, que deve ser parecido com o exemplo abaixo. O arquivo pode diferir um pouco, porque o create-react-app às vezes atualiza a estrutura do componente padrão.
+*/
+
+import React from 'react'
+import logo from './logo.svg'
+import './App.css'
+
+function App () {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
+}
+
+export default App
+
+//Este arquivo será nosso foco ao longo deste tutorial, a menos que especificado de outra forma. Vamos começar reduzindo o componente para uma versão mais leve para que você possa começar sem muito código de boilerplate do create-react-app.
+
+import React from 'react'
+
+function App () {
+  return (
+    <div>
+      <h1>Hello World!</h1>
+    </div>
+  );
+}
+
+export default App;
+
+/*
+Primeiro, este componente React, chamado componente App, é apenas uma função JavaScript. É comumente chamado de componente função, pois existem outras variações de componentes React (ver tipos de componentes mais adiante). Segundo, o componente App ainda não recebe nenhum parâmetro em sua assinatura de função (veja as props mais tarde). E terceiro, o componente App retorna código que se assemelha ao HTML que é chamado JSX (veja JSX mais tarde).
+
+O componente de função possui detalhes de implementação como qualquer outra função JavaScript. Você verá isso na prática em ação durante toda a sua jornada React:
+
+
+*/
+
+import React from 'react'
+
+function App () {
+  //faz algo
+  return (
+    <div>
+      <h1>Hello World!</h1>
+    </div>
+  );
+}
+
+export default App;
+
+//Variáveis definidas no corpo da função serão redefinidas cada vez que esta função for executada, como todas as funções JavaScript:
+
+import React from 'react'
+
+function App () {
+  const title = "React"
+  return (
+    <div>
+      <h1>Hello World!</h1>
+    </div>
+  );
+}
+
+export default App;
+
+//Como não precisamos de nada dentro do componente App usado para esta variável -- por exemplo, parâmetros provenientes da assinatura da função -- podemos definir a variável fora do componente App também:
+
+import React from 'react'
+const title = "React"
+
+function App () {
+  return (
+    <div>
+      <h1>Hello World!</h1>
+    </div>
+  );
+}
+
+export default App;
+
+//Vamos utilizar a variável na próxima seção;
+
+/*
+- Exercícios:
+
+- Confirme seu código fonte para a última seção.(https://codesandbox.io/s/github/the-road-to-learn-react/hacker-stories/tree/hs/Meet-the-React-Component)
+
+- Se você não tem certeza de quando usar const, let ou var em JavaScript (ou React) para declarações de variáveis, não deixe de ler mais sobre suas diferenças.
+- Leia mais sobre a const.(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const)
+- Leia mais sobre let.(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)
+- Pense em maneiras de exibir a variável de título no HTML retornado do seu componente App. Na próxima seção, vamos colocar esta variável para usar.
+*/
+
+/*
+- React JSX
+
+Lembrando que mencionei que a saída retornada do componente App se assemelha ao HTML. Esta saída é chamada JSX, que mistura HTML e JavaScript. Vamos ver como isso funciona para exibir a variável:
+*/
+
+import React from 'react'
+
+const title = "React"
+
+function App () {
+  return (
+    <div>
+      <h1>Hello {title}!</h1> {/* Hello React! */}
+    </div>
+  );
+}
+
+export default App;
+
+/*
+Inicie sua aplicação com npm start novamente, e procure pela variável renderizada no browser, que deve ser lida: "Olá React".
+
+Vamos focar no HTML, que é expresso quase da mesma forma no JSX. Um input com label pode ser definido da seguinte forma:
+*/
+
+import React from 'react'
+
+const title = 'React'
+
+function App () {
+  return (
+    <div>
+      <h1>Hello {title}!</h1>
+      <label htmlFor="search">Search: </label>
+      <input id="search" type="text" />
+    </div>
+  )
+}
+
+/*
+
+Especificamos aqui três atributos HTML: htmlFor, id, e type. Onde id e type devem ser familiares a partir do HTML nativo, htmlFor pode ser novo. O htmlFor reflete o atributo 'for' em HTML. JSX substitui um punhado de atributos HTML internos, mas você pode encontrar todos os atributos HTML suportados na documentação do React, que seguem a convenção de nomenclatura camelCase. Espere encontrar mais atributos específicos do JSX como className e onClick ao invés de class e onclick, conforme você aprender mais sobre o React.
+
+Mais tarde revisaremos o input field HTML para detalhes de implementação; por enquanto, vamos voltar ao JavaScript no JSX. Definimos uma string primitiva para ser exibida no componente App, e o mesmo pode ser feito com um objeto JavaScript:
+
+*/
+/*
+import React from 'react'
+
+const welcome = {
+  greeting: 'Hello',
+  title: 'React',
+}
+
+function App () {
+  return (
+    <div>
+      <h1>{welcome.greeting} {welcome.title}</h1>
+      <label htmlFor="search">Search: </label>
+      <input id="search" type="text"></input>
+    </div>
+  );
+}
+
+export default App;
+*/
+
+//Lembre-se, tudo em JSX entre chaves {} pode ser tratado como expressões javascript
+
+import React from 'react'
+
+function getTitle (title) {
+  return title
+}
+
+function App () {
+  return (
+    <div>
+      <h1>Hello {getTitle('React')}!</h1>
+      <label htmlFor="search">Search: </label>
+      <input id="search" type="text" />
+    </div>
+  );
+}
+
+export default App;
+
+/*
+O JSX foi inicialmente inventado para React, mas tornou-se útil para outras bibliotecas e estruturas modernas após ter ganho popularidade. É uma das minhas coisas favoritas sobre o React. Sem nenhuma sintaxe extra de templates (com exceção das chaves), agora podemos usar JavaScript em HTML.
+
+
+- Exercícios:
+
+- Confirme seu código fonte para a última seção.
+
+- Confirme as alterações da última seção.
+
+- Leia mais sobre o JSX do React.
+
+- Defina tipos de dados JavaScript mais primitivos e complexos e renderize-os no JSX.
+
+- Tente renderizar um array JavaScript no JSX. Se for muito complicado, não se preocupe, pois você vai aprender mais sobre isso na próxima seção.
+
+*/
+
+/*
+- Listas em React
+
+Até o momento já renderizamos algumas variáveis primitivas no JSX; em seguida vamos renderizar uma lista de itens. Primeiro vamos experimentar com os dados da amostra, depois vamos aplicar isso para buscar dados de uma API remota. Primeiro, vamos definir o array como uma variável. Como antes, podemos definir uma variável fora ou dentro do componente. O seguinte a define fora:
+
+*/
+
+import React from 'react'
+
+const list = [
+  {
+    title: 'React',
+    url: 'https://reactjs.org',
+    author: 'Jordan Walke',
+    num_comments: 3,
+    points: 4,
+    objectID: 0,
+  },
+  {
+    title: 'Redux',
+    url: 'https://redux.js.org',
+    author: 'Dan Abramov, Andrew Clark',
+    num_comments: 2,
+    points: 5,
+    objectID: 1,
+  },
+];
+
+function App () {
+  return (
+    ...
+  );
+}
+
+export default App;
+
+/*
+Eu usei um ... aqui como um espaço reservado, para manter meu código pequeno (sem detalhes de implementação do componente App) e focado nas partes essenciais (a variável de lista fora do componente App). Eu vou usar o ... ao longo do resto desta experiência de aprendizagem como placeholder para blocos de código que eu tenho estabelecido exercícios anteriores. Se você se perder, você pode sempre verificar seu código usando os links CodeSandbox que eu forneço no final da maioria das seções.
+
+Cada item da lista tem um título, uma url, um autor, um identificador (objectID), pontos -- que indicam a popularidade de um item -- e uma contagem de comentários. A seguir, vamos renderizar a lista dentro do nosso JSX dinamicamente:
+*/
+
+function App () {
+  return (
+    <div>
+      <h1>My Hacker Stories</h1>
+
+      <label htmlFor="search">Search:</label>
+      <input id="search" type="text" />
+      
+      <hr />
+
+      {/*Renderize a lista aqui*/}
+    </div>
+  );
+}
+
+//Você pode usar o método embutido de map JavaScript para arrays para iterar sobre cada item da lista e retornar uma nova versão de cada um:
+
+const numbers = [1, 2, 4 ,5, 9]
+
+const newNumbers = numbers.map(number => {
+  return number * 2
+})
+
+console.log(newNumbers)
+//output: [2, 4, 8, 10, 18]
+
+//Não vamos mapear de um tipo de dados JavaScript para outro no nosso caso. Em vez disso, devolvemos um fragmento JSX que renderiza cada item da lista:
+const list = [
+  {
+    title: 'React',
+    url: 'https://reactjs.org',
+    author: 'Jordan Walke',
+    num_comments: 3,
+    points: 4,
+    objectID: 0,
+  },
+  {
+    title: 'Redux',
+    url: 'https://redux.js.org',
+    author: 'Dan Abramov, Andrew Clark',
+    num_comments: 2,
+    points: 5,
+    objectID: 1,
+  },
+];
+
+function App () {
+  return (
+    <div>
+      <h1>My Hacker Stories</h1>
+      <label htmlFor="search">Search:</label>
+      <input id="search" type="text" />
+      <hr />
+      {list.map(item => {
+        return <div>{item.title}</div>
+      })} 
+    </div>
+  );
+}
+
+/*
+Na verdade, um dos meus primeiros momentos "Aha" em React foi usar JavaScript puro para mapear uma lista de objectos JavaScript para elementos HTML sem qualquer outra sintaxe de templates HTML. É apenas JavaScript em HTML.
+
+React irá exibir cada item agora, mas você ainda pode melhorar seu código para que o React lide com listas dinâmicas avançadas de forma mais graciosa. Ao atribuir um atributo key ao elemento de cada item da lista, o React pode identificar itens modificados se a lista mudar (por exemplo, reordenação). Felizmente, os itens da nossa lista vêm com um identificador:
+*/
+
+function App () {
+  return (
+    <div>
+      <h1>My Hacker Stories</h1>
+      <label htmlFor="search">Search:</label>
+      <input id="search" type="text" />
+      <hr />
+      {list.map(item => {
+        return (
+          <div key={item.objectID}>
+            {item.title}
+          </div>
+        ) 
+      })}
+    </div>
+  );
+}
+
+//Evitamos utilizar o índice do item no array para garantir que o atributo chave seja um identificador estável. Se a lista alterar a sua ordem, por exemplo, a React não será capaz de identificar os itens correctamente:
+
+// não faça isso!
+{list.map(function(item, index) {
+  return (
+    <div key={index}>
+      ...
+    </div>
+  );
+})}
+
+function App () {
+  return (
+    <div>
+      <h1>My Hacker stories</h1>
+      <label htmlFor="search">Search: </label>
+      <input id="search" type="text" />
+
+      <hr />
+
+      {list.map(item => {
+        return (
+          <div key={item.objectID}>
+            <span>
+              <a href={item.url}>{item.title}</a>
+            </span>
+            <span>{item.author}</span>
+            <span>{item.num_comments}</span>
+            <span>{item.points}</span>
+          </div>
+        )
+      })}
+    </div>
+  );
+}
+
+/*
+A função do map está concisamente delineada no seu JSX. Dentro da função de map, temos acesso a cada item e às suas propriedades. A propriedade url de cada item é utilizada como atributo href dinâmico para a etiqueta de âncora. Não só o JavaScript no JSX pode ser utilizado para exibir itens, mas também para atribuir atributos HTML de forma dinâmica.
+
+- Exercícios:
+
+- Confirme o seu código fonte para a última secção.
+
+- Confirme as alterações da última seção.
+
+- Leia mais sobre porque o atributo key do React é necessário (0, 1, 2). Não se preocupe se você ainda não entendeu a implementação, apenas concentre-se no problema que ela causa para as listas dinâmicas.
+
+- Recapitule os métodos de array padrão incorporados -- especialmente map, filter e reduce -- que estão disponíveis em JavaScript nativo.
+
+- O que acontece se o seu retorno for nulo em vez do JSX?
+
+- Amplie a lista com mais alguns itens para tornar o exemplo mais realista.
+
+- Pratique usando diferentes expressões JavaScript no JSX.
+*/
