@@ -2396,3 +2396,54 @@ A função do map está concisamente delineada no seu JSX. Dentro da função de
 
 - Pratique usando diferentes expressões JavaScript no JSX.
 */
+
+//#########################################################
+
+/*
+
+- Conheça outro componente da React
+
+Até agora só temos usado o componente App para criar nossas aplicações. Nós usamos o componente App na última seção para expressar tudo o que é necessário para renderizar nossa lista em JSX, e ele deve escalar de acordo com suas necessidades e eventualmente lidar com tarefas mais complexas. Para ajudar nisso, vamos dividir algumas de suas responsabilidades em um componente de lista:
+
+*/
+
+function List () {
+  return list.map(function(item) {
+    return (
+      <div key={item.objectID}>
+        <span>
+          <a href={item.url}>{item.title}</a>
+        </span>
+        <span>{item.author}</span>
+        <span>{item.num_comments}</span>
+        <span>{item.points}</span>
+      </div>
+    );
+  });
+}
+
+//Opcional: Se este componente parecer estranho, porque a parte mais externa do JSX retornado começa com JavaScript. Poderíamos usá-lo com um elemento HTML envolvente também, mas vamos continuar com a versão anterior.
+
+function List() {
+  return (
+    <div>
+      {list.map(function(item) {
+        return (... );
+      })}
+    </div>
+  );
+}
+
+//Agora o novo componente Listar pode ser usado no componente App:
+
+function App () {
+  return (
+    <div>
+      <h1>My Hacker Stories</h1>
+      <label htmlFor="search">Search: </label>
+      <input id="search" type="text"></input>
+      <List />
+    </div>
+  );
+}
+
