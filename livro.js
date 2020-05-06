@@ -2447,3 +2447,78 @@ function App () {
   );
 }
 
+
+/*
+
+- Exercícios
+
+- Confirme seu código fonte para a última seção.
+
+- Confirme as alterações da última seção.
+
+- Desenhe seus componentes -- o componente App e o componente List -- como uma árvore de componentes em uma folha de papel. Estenda esta árvore de componentes com outros componentes possíveis (por exemplo, componente de Busca extraído para o input e label no componente App). Tente descobrir quais outras partes podem ser extraídas como componentes autônomos.
+
+- Se um componente de Busca for usado no componente App, o componente Busca seria um componente irmão, pai, ou filho para o componente Lista?
+Pergunte-se que problemas podem surgir se continuarmos tratando a variável lista como variável global. Cobriremos como lidar com esses problemas nas próximas seções.
+
+*/
+
+
+//############################################
+
+/*
+- Instanciação de Componentes React
+
+A seguir, vou explicar brevemente as classes de JavaScript, para ajudar a esclarecer os componentes do React. Tecnicamente eles não estão relacionados, o que é importante notar, mas é uma analogia adequada para você entender o conceito de um componente.
+
+As classes são mais frequentemente usadas em linguagens de programação orientadas a objetos. O JavaScript, sempre flexível em seus paradigmas de programação, permite que a programação funcional e a programação orientada a objetos coexistam lado a lado. Para recapitular as classes JavaScript para programação orientada a objetos, considere a seguinte classe Developer:
+*/
+
+class Developer {
+  constructor(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+ 
+  getName() {
+    return this.firstName + ' ' + this.lastName;
+  }
+}
+
+/*
+Cada classe tem um construtor que pega nos argumentos e os atribui à instância da classe. Uma classe também pode definir funções que estão associadas a um assunto (por exemplo, getName), chamadas métodos ou métodos de classe.
+
+Definir a classe Developer uma vez é apenas uma parte; instanciá-la é a outra. A definição da classe é o plano das suas capacidades, e o uso ocorre quando uma instância é criada com a nova instrução.
+*/
+
+// definição da class
+class Developer { ... }
+ 
+// instânciação da classe
+const robin = new Developer('Robin', 'Wieruch');
+ 
+console.log(robin.getName());
+// "Robin Wieruch"
+ 
+// outra instânciação da classe
+const dennis = new Developer('Dennis', 'Wieruch');
+ 
+console.log(dennis.getName());
+// "Dennis Wieruch"
+
+/*
+Se existe uma definição de classe JavaScript, pode-se criar múltiplas instâncias dela. É semelhante a um componente React, que tem apenas uma definição de componente, mas pode ter múltiplas instâncias de componente:
+*/
+
+/*
+Depois de definirmos um componente, podemos usá-lo como um elemento HTML em qualquer parte do nosso JSX. O elemento produz uma instância de componente do seu componente, ou seja, o componente fica instanciado. Você pode criar quantas instâncias de componente quiser. Não é muito diferente da definição e uso de uma classe JavaScript.
+
+
+- Exercícios:
+
+- Familiarize-se com os termos definição de componente, instância de componente, e elemento.
+
+- Experimente criando múltiplas instâncias de componentes de um componente Listar.
+
+- Pense em como pode ser possível dar a cada componente da Listar a sua própria lista.
+*/

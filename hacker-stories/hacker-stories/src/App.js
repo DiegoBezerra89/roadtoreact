@@ -241,6 +241,7 @@ function App () {
 export default App;
 */
 
+/*
 import React from 'react'
 
 const list = [
@@ -265,10 +266,10 @@ const list = [
 function App () {
   return (
     <div>
-      <h1>My Hacker Stories</h1>
-      <label htmlFor="search">Search: </label>
-      <input id="search" type="text"></input>
-      <hr />
+      <Title content="My Hacker Stories"/>
+      <Label index="search" content="Search: "/>
+      <Input id="search" type="text" placeholder="Pesquisar" />
+      <Hr />
       <List />
     </div>
   )
@@ -281,13 +282,309 @@ function List () {
     return (
       <div key={item.objectID}>
         <ul>
-          <li><a href={item.url}>{item.title}</a></li>
-          <li>{item.author}</li>
-          <li>{item.num_comments}</li>
-          <li>{item.points}</li>
+          <ListItem inside={
+            <Link link={item.url} content={item.title} 
+            />}
+          />
+          <ListItem text="Author: " inside={item.author} />
+          <ListItem text="Comments: " inside={item.num_comments} />
+          <ListItem text="Points: " inside={item.points} />
         </ul>
-        <hr />
+        <Hr />
       </div>
     );
   });
+}
+
+
+- Exercícios
+
+- Confirme seu código fonte para a última seção.
+
+- Confirme as alterações da última seção.
+
+- Desenhe seus componentes -- o componente App e o componente List -- como uma árvore de componentes em uma folha de papel. Estenda esta árvore de componentes com outros componentes possíveis (por exemplo, componente de Busca extraído para o input e label no componente App). Tente descobrir quais outras partes podem ser extraídas como componentes autônomos.
+  - App
+  --h1 = Title
+  --label = Label
+  --input = Search
+  --hr = Hr
+
+function Title ({content}) {
+  return (
+    <h1>{content}</h1>
+  )
+}
+
+function Label (props) {
+  return (
+    <label htmlFor={props.index}>{props.content}</label>
+  )
+}
+
+function Input (props) {
+  return (
+    <input id={props.id} type={props.type} placeholder={props.placeholder}></input>
+  )
+}
+
+function Hr () {
+  return <hr />
+}
+
+
+  -List
+  --Unordered List = UnorderedList
+  --list item = ListItem
+  --hr = Hr
+
+function ListItem (props) {
+  return <li>{props.text}{props.inside}</li>
+}
+
+function Link (props) {
+  return <a href={props.link} target="_blank">{props.content}</a>
+}
+*/
+/*
+- Se um componente de Busca for usado no componente App, o componente Busca seria um componente irmão, pai, ou filho para o componente Lista?
+ - Filho
+
+- Pergunte-se que problemas podem surgir se continuarmos tratando a variável lista como variável global. Cobriremos como lidar com esses problemas nas próximas seções.
+  
+
+*/
+
+/*
+class Developer {
+  constructor(firstName, lastName) {
+    this.firstName = firstName
+    this.lastName =  lastName
+  }
+
+  getName() {
+    return `${this.firstName} ${this.lastName}`
+  }
+}
+
+const diego = new Developer('Diego', 'Bezerra')
+
+console.log(diego.getName()) //Diego Bezerra
+*/
+
+
+//- Exercícios:
+
+//- Familiarize-se com os termos definição de componente, instância de componente, e elemento.
+//- definição:
+/*
+  class Car {
+    constructor (name,brand, color, year, price) {
+      this.name = name
+      this.brand = brand
+      this.color = color
+      this.year = year
+      this.price = price
+    }
+
+    getBrand () {
+      return this.brand
+    }
+    getColor () {
+      return this.color
+    }
+    getYear () {
+      return this.year
+    }
+    getPrice () {
+      return this.price
+    }
+    getCar() {
+      return `This car is a ${this.brand} ${this.name}, ${this.color}, made on ${this.year}, and costs ${this.price}.`
+    }
+  }
+ 
+//instância: 
+const gol = new Car('Gol', 'Volkswagen', 'blue', 1998, '$8.300,00')
+
+//elemento
+console.log(gol)
+
+*/
+//- Experimente criando múltiplas instâncias de componentes de um componente List.
+
+import React from 'react'
+import './App.css'
+import Santos from './santos.png'
+import Palmeiras from './palmeiras.png'
+import Spfc from './spfc.png'
+import Corinthians from './corinthians.png'
+
+function App () {
+  return (
+    <div>
+      <Title content="Times de SP"/>
+      <ListaDeTimes />
+    </div>
+  )
+}
+export default App;
+
+class Time {
+  constructor(nome, fundacao, titulosNacionais, estadio, maiorIdolo, campeaoMundial, mundiais, site, image, id) {
+    this.nome = nome
+    this.fundacao = fundacao
+    this.titulosNacionais = titulosNacionais
+    this.estadio = estadio
+    this.maiorIdolo = maiorIdolo
+    this.campeaoMundial = campeaoMundial
+    this.mundiais = mundiais
+    this.site = site
+    this.image = image
+    this.id = id
+  }
+
+  temMundial() {
+    const mundial = this.campeaoMundial
+    return mundial ? `Tem sim, tem logo ${this.mundiais}!` : `Tem não mano, foda.`
+  }
+}
+
+const palmeiras = new Time('Sociedade Esportiva Palmeiras', '26 de Agosto de 1914', 13, 'Allianz Parque', 'Ademir da Guia', false, 0, 'https://www.palmeiras.com.br', Palmeiras, 1)
+const corinthians = new Time('Sport Club Corinthians Paulista', '2 de Setembro de 1910', 10, 'Itaquerão', 'Sócrates', true, 2, 'https://www.corinthians.com.br', Corinthians, 2)
+const saoPaulo = new Time('São Paulo Futebol Clube', '25 de Janeiro de 1930', 6, 'Morumbi', 'Rogério Ceni', true, 3, 'https://www.spfc.net',Spfc, 3)
+const santos = new Time('Santos Futebol Clube', '14 de Abril de 1912', 10, 'Vila Belmiro', 'Pelé', true, 2, 'https://www.santosfc.com.br',Santos, 4)
+
+const times = [
+  palmeiras,
+  corinthians,
+  saoPaulo,
+  santos,
+]
+
+function ListaDeTimes () {
+  return times.map(function(item) {
+    return (
+    <div key={item.id}>
+      <ul>
+        <Image src={item.image}/>
+        <ListItem 
+          text="Nome: " 
+          inside={
+            <Link 
+              link={item.site}
+              content={item.nome}
+            />
+          }
+        />
+        <ListItem text="Fundação: " inside={item.fundacao} />
+        <ListItem text="Títulos Nacionais: " inside={item.titulosNacionais} />
+        <ListItem text="Estádio: " inside={item.estadio} />
+        <ListItem text="Maior ídolo: " inside={item.maiorIdolo} />
+        <ListItem text="Tem Mundial: " inside={item.temMundial()} />
+      </ul>
+      <Hr />
+    </div> 
+  )});
+}
+
+/*</div>
+function ListItem (props) {
+  return <li>{props.text}{props.inside}</li>
+}
+function Link (props) {
+  return <a href={props.link} target="_blank">{props.content}</a>
+}
+
+
+*/
+//- Pense em como pode ser possível dar a cada componente da Listar a sua própria lista.
+
+/*
+import React from 'react'
+
+const list = [
+  {
+    title: 'React',
+    url: 'https://reactjs.org',
+    author: 'Jordan Walke',
+    num_comments: 3,
+    points: 4,
+    objectID: 0,
+  },
+  {
+    title: 'Redux',
+    url: 'https://redux.js.org',
+    author: 'Dan Abramov, Andrew Clark',
+    num_comments: 2,
+    points: 8,
+    objectID: 1,
+  },
+];
+
+function App () {
+  return (
+    <div>
+      <Title content="My Hacker Stories"/>
+      <Label index="search" content="Search: "/>
+      <Input id="search" type="text" placeholder="Pesquisar" />
+      <Hr />
+      <List />
+    </div>
+  )
+}
+
+export default App;
+
+function List () {
+  return list.map(function(item) {
+    return (
+      <div key={item.objectID}>
+        <ul>
+          <ListItem inside={
+            <Link link={item.url} content={item.title} 
+            />}
+          />
+          <ListItem text="Author: " inside={item.author} />
+          <ListItem text="Comments: " inside={item.num_comments} />
+          <ListItem text="Points: " inside={item.points} />
+        </ul>
+        <Hr />
+      </div>
+    );
+  });
+}
+*/
+function Image (props) {
+  return <img src={props.src}></img>
+}
+
+function Title (props) {
+  return (
+    <h1>{props.content}</h1>
+  )
+}
+
+function Label (props) {
+  return (
+    <label htmlFor={props.index}>{props.content}</label>
+  )
+}
+
+function Input (props) {
+  return (
+    <input id={props.id} type={props.type} placeholder={props.placeholder}></input>
+  )
+}
+
+function Hr () {
+  return <hr />
+}
+
+function ListItem (props) {
+  return <li>{props.text}{props.inside}</li>
+}
+
+function Link (props) {
+  return <a href={props.link} target="_blank">{props.content}</a>
 }
