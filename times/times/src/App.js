@@ -5,14 +5,12 @@ import Palmeiras from './images/palmeiras.png'
 import Spfc from './images/spfc.png'
 import Corinthians from './images/corinthians.png'
 
-function App () {
-  return (
-    <div>
-      <Title content="Times de SP"/>
-      <ListaDeTimes />
-    </div>
-  )
-}
+const App = () => 
+  <div>
+    <Title content="Times de SP"/>
+    <ListaDeTimes />
+  </div>
+
 export default App;
 
 class Time {
@@ -29,7 +27,7 @@ class Time {
     this.id = id
   }
 
-  temMundial() {
+  temMundial = () => {
     const mundial = this.campeaoMundial
     return mundial ? `Tem sim, tem logo ${this.mundiais}!` : `Tem não mano, foda.`
   }
@@ -47,9 +45,8 @@ const times = [
   santos,
 ]
 
-function ListaDeTimes () {
-  return times.map(function(item) {
-    return (
+const ListaDeTimes = () =>
+  times.map( item =>
     <div key={item.id}>
       <ul>
         <Image src={item.image}/>
@@ -70,27 +67,15 @@ function ListaDeTimes () {
       </ul>
       <Hr />
     </div> 
-  )});
-}
+  );
 
-function Image (props) {
-  return <img src={props.src}></img>
-}
 
-function Title (props) {
-  return (
-    <h1>{props.content}</h1>
-  )
-}
+const Image = props => <img src={props.src}></img>
 
-function Hr () {
-  return <hr />
-}
+const Title = props => <h1>{props.content}</h1>
+  
+const Hr = () => <hr />
 
-function ListItem (props) {
-  return <li>{props.text}{props.inside}</li>
-}
+const ListItem = props => <li>{props.text}{props.inside}</li>
 
-function Link (props) {
-  return <a href={props.link} target="_blank">{props.content}</a>
-}
+const Link = props => <a href={props.link} target="_blank">{props.content}</a>

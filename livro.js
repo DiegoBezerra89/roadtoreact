@@ -2522,3 +2522,181 @@ Depois de definirmos um componente, podemos usá-lo como um elemento HTML em qua
 
 - Pense em como pode ser possível dar a cada componente da Listar a sua própria lista.
 */
+
+//############################################################
+
+/*
+- React DOM
+
+Agora que aprendemos sobre definições de componentes e sua instanciação, podemos passar para a instanciação do componente App. Ele está em nossa aplicação desde o início, no arquivo src/index.js:
+
+*/
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import App from './App';
+
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+);
+
+/*
+Ao lado do React, há outra biblioteca importada chamada ReactDOM.render(), na qual uma função ReactDOM.render utiliza um nó HTML para substituí-lo pelo JSX. O processo integra o React ao HTML. ReactDOM.render() espera dois argumentos; o primeiro é renderizar o JSX. Ele cria uma instância do seu componente App, embora ele também possa passar JSX simples sem instanciar nenhum componente.
+*/
+
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+
+ReactDOM.render(
+  <h1>Hello ReactDOM</h1>,
+  document.getElementById('root')
+);
+
+//O segundo argumento especifica onde a aplicação React entra em seu HTML. Ele espera um elemento com um id='root', encontrado no arquivo public/index.html. Este é um arquivo HTML básico.
+
+/*
+- Exercícios:
+
+- Abra o public/index.html para ver onde a aplicação React entra em seu HTML.
+
+- Considere como podemos incluir uma aplicação React em uma aplicação web externa que utiliza HTML.
+
+- Leia mais sobre como renderizar elementos no React.
+*/
+
+//#######################################
+
+/*
+- Definição do Componente React (Avançado)
+
+Os seguintes refactorings são recomendações opcionais para explicar os diferentes padrões JavaScript/React. Você pode construir aplicações React completas sem esses padrões avançados, então não desanime se eles parecerem muito complicados.
+
+Todos os componentes no arquivo src/App.js são componentes funcionais. O JavaScript tem várias formas de declarar funções. Até agora, temos usado a declaração de funções, embora as arrow functions possam ser usadas de forma mais concisa:
+
+*/
+
+//decelaração de funçao
+function () {
+  ...
+}
+
+//declaração de arrow function
+const () => {
+  ...
+}
+
+//você pode remover os parênteses caso a sua arrow function possua apenas um argumento, no caso de ter mais de um, os parênteses são necessários 
+
+//permitido
+const teste = item => {
+  return item
+}
+
+//permitido
+const teste = (item) => {
+  return item
+}
+
+//não permitido
+const teste = item1 , item2 => {
+  return item1 + item2
+}
+
+//permitido
+const teste = (item1, item2) => {
+  return item1 + item2
+}
+
+//A definição de componentes funcionais React com arrow functions torna-os mais concisos:
+
+const App = () => {
+  return (
+    <div>
+      <h1>App arrow function</h1>
+    </div>
+  );
+};
+
+const List = () => {
+  return list.map(item => {
+    return(
+      <div key={item.objectID}>
+        <span>
+          <a href={item.url}>{item.title}</a>
+        </span>
+        <span>{item.author}</span>
+        <span>{item.num_comments}</span>
+        <span>{item.points}</span>
+      </div>
+    );
+  });
+};
+
+/*
+Se uma função de seta não faz nada no meio, mas apenas retorna algo -- em outras palavras, se uma função de seta não executa nenhuma tarefa, mas apenas retorna informações --, você pode remover o corpo do bloco (chaves) da função. Em um corpo conciso, uma declaração de retorno implícita é anexada, assim você pode remover a declaração de retorno:
+*/
+
+//com corpo de bloco
+count => {
+  return count + 1
+}
+
+//sem corpo de bloco e return
+count => count + 1
+
+
+/*
+Isto também pode ser feito para o componente App e List, porque eles só retornam JSX e não executam nenhuma tarefa no meio. Novamente também se aplica para a arrow function que é usada na função map:
+*/
+
+const App = () => (
+  <div>
+    ...
+  </div>
+)
+
+const List = () => 
+  list.map(item => (
+    <div key={item.objectID}>
+      <span>
+        <a href={item.url}>{item.title}</a>
+      </span>
+      <span>{item.author}</span>
+      <span>{item.num_comments}</span>
+      <span>{item.points}</span>
+    </div>
+  ));
+
+/*
+O nosso JSX é agora mais conciso, pois omite a declaração de função, as chaves e a declaração de retorno. No entanto, lembre-se que este é um passo opcional, e que é aceitável usar funções normais em vez de arrow functions e chaves para arrow function sobre retornos implícitos. Às vezes, corpos de bloco serão necessários para introduzir mais lógica de negócios entre a assinatura da função e a instrução de retorno:
+
+*/
+
+const App = () => {
+  //faz alguma tarefa
+
+  return (
+    <div>
+      ...
+    </div>
+  );
+};
+
+/*
+Certifique-se de entender este conceito de refatoração, pois vamos passar rapidamente dos componentes de arrow functions com e sem corpos de bloco à medida que avançamos. Qual deles vamos usar dependerá dos requisitos do componente.
+
+
+- Exercícios:
+
+- Confirme o seu código fonte para a última secção.
+
+- Confirme as alterações da última seção.
+
+- Leia mais sobre as funções de seta JavaScript.
+
+- Familiarize-se com as funções de seta com corpo de bloco e retorno, e corpo conciso sem retorno.
+
+*/
