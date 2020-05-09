@@ -2700,3 +2700,172 @@ Certifique-se de entender este conceito de refatoração, pois vamos passar rapi
 - Familiarize-se com as funções de seta com corpo de bloco e retorno, e corpo conciso sem retorno.
 
 */
+
+//###############################################
+
+/*
+- Handler Function no JSX
+
+O componente App ainda tem o input e label, que ainda não utilizamos. Em HTML fora do JSX, os campos de entrada têm um change handler(manipulador de mudança). Vamos descobrir como usar os manipuladores onchange com um JSX do componente React. Primeiro, refatore o componente App de um corpo conciso para um corpo de bloco para que possamos adicionar detalhes de implementação.
+
+*/
+
+const App = () => {
+  return (
+    <div>
+      <Title content="My Hacker Stories"/>
+      <Label index="search" content="Search: "/>
+      <Input id="search" type="text" placeholder="Pesquisar" />
+      <Hr />
+      <List />
+    </div>
+  )
+}
+
+export default App;
+
+/*
+A seguir, defina uma função -- que pode ser normal ou arrow -- para o evento de mudança do campo de entrada. Em React, esta função é chamada de manipulador de evento(event handler). Agora a função pode ser passada para o atributo onChange (JSX chamado atributo) do campo de entrada.
+*/
+
+const App = () => {
+  const handleChange = () => {
+    console.log(event);
+  }
+  return (
+    <div>
+      <Title content="My Hacker Stories"/>
+      <Label index="search" content="Search: "/>
+      <Input id="search" type="text" placeholder="Pesquisar" onChange={handleChange} />
+      <Hr />
+      <List />
+    </div>
+  )
+}
+
+export default App;
+
+/*
+Após abrir seu aplicativo em um navegador web, abra as ferramentas de desenvolvimento do navegador para ver o log ocorrer após você digitar no campo de entrada. Isto é chamado de um evento sintético definido por um objeto JavaScript. Através deste objeto, podemos acessar o valor emitido do campo de entrada:
+*/
+
+const handleChange = () => {
+  console.log(event.target.value)
+}
+
+/*
+O evento sintético é essencialmente um envoltório em torno do evento nativo do navegador, com mais funções que são úteis para prevenir o comportamento do navegador nativo (por exemplo, recarregar uma página após o usuário clicar no botão de envio de um formulário). Algumas vezes você vai usar o evento, outras vezes você não vai precisar dele.
+
+É assim que nós damos elementos HTML nas funções do JSX Handler para responder à interação do usuário. Sempre passe funções para estes manipuladores, não o valor de retorno da função, exceto quando o valor de retorno for uma função:
+*/
+
+//não faça isso
+<input 
+  id="search" 
+  type="text" 
+  onChange={handleChange()} 
+/>
+
+//faça isso
+<input
+  id="search"
+  type="text"
+  onChange={handleSearch}
+/>
+
+/*
+HTML e JavaScript funcionam juntos no JSX. JavaScript em HTML pode exibir objetos, pode passar primitivos JavaScript para atributos HTML (ex. href para <a>), e pode passar funções para os atributos de um elemento para lidar com eventos.
+
+Eu prefiro usar funções de seta por causa de sua concisão como manipuladores de eventos, entretanto, em um componente React maior eu me vejo usando os comandos de função também, porque ele lhes dá mais visibilidade em contraste com outras declarações de variáveis dentro do corpo de um componente.
+
+- Exercícios:
+- Confirme seu código fonte para a última seção.
+  --Confirme as alterações da última seção.
+
+-Leia mais sobre os eventos do React. (https://reactjs.org/docs/events.html)
+
+//######################################
+
+/*
+
+- REACT PROPS
+
+Atualmente estamos usando a variável de lista como uma variável global na aplicação atual. Nós a usamos diretamente do escopo global no componente App, e novamente no componente List. Isto poderia funcionar se você tivesse apenas uma variável, mas não é escalada com múltiplas variáveis através de múltiplos componentes de muitos arquivos diferentes.
+
+Usando os chamados props, podemos passar variáveis como informação de um componente para outro componente. Antes de usar props, vamos mover a lista do escopo global para o componente App e renomeá-lo para o seu domínio real:
+
+*/
+
+const App = () => {
+  const stories = [
+    {
+      title: 'React',
+      url: 'https://reactjs.org/',
+      author: 'Jordan Walke',
+      num_comments: 3,
+      points: 4,
+      objectID: 0,
+    },
+    {
+      title: 'Redux',
+      url: 'https://redux.js.org/',
+      author: 'Dan Abramov, Andrew Clark',
+      num_comments: 2,
+      points: 5,
+      objectID: 1,
+    },
+  ];
+ 
+  const handleChange = event => { ... };
+ 
+  return ( ... );
+};
+
+//A seguir, vamos usar as props para passar o array para o componente List
+
+const App = () => {
+  const stories = [ ... ];
+ 
+  const handleChange = event => { ... };
+ 
+  return (
+    <div>
+      <h1>My Hacker Stories</h1>
+ 
+      <label htmlFor="search">Search: </label>
+      <input id="search" type="text" onChange={handleChange} />
+ 
+      <hr />
+ 
+      <List list={stories} />
+    </div>
+  );
+};
+
+/*
+A variável é chamada de stories no componente App, e nós a passamos com este nome para o componente List. No entanto, no componente List, ela é atribuída ao atributo list. Nós a acessamos como list a partir do objeto props na assinatura da função do componente List:
+ */
+
+const List = props =>
+props.list.map(item => (
+  <div key={item.objectID}>
+    <span>
+      <a href={item.url}>{item.title}</a>
+    </span>
+    <span>{item.author}</span>
+    <span>{item.num_comments}</span>
+    <span>{item.points}</span>
+  </div>
+));
+
+/*
+Usando esta operação, impedimos que a variável lista/stories polua o escopo global no componente App. Como stories não é usada diretamente no componente App, mas em um de seus componentes filhos, nós a passamos como props para o componente Listar. Lá, nós podemos acessá-lo através do argumento da primeira assinatura de função, chamada de props.
+
+- Exercícios:
+
+- Confirme o seu código fonte para a última secção.
+
+- Confirme as alterações da última seção.
+
+- Leia mais sobre como passar os adereços para os componentes Reagir. (https://www.robinwieruch.de/react-pass-props-to-component)
+*/

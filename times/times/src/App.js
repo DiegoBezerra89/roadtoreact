@@ -14,7 +14,7 @@ const App = () =>
 export default App;
 
 class Time {
-  constructor(nome, fundacao, titulosNacionais, estadio, maiorIdolo, campeaoMundial, mundiais, site, image, id) {
+  constructor(nome, fundacao, titulosNacionais, estadio, maiorIdolo, campeaoMundial, mundiais, site, image, id, classe) {
     this.nome = nome
     this.fundacao = fundacao
     this.titulosNacionais = titulosNacionais
@@ -25,6 +25,7 @@ class Time {
     this.site = site
     this.image = image
     this.id = id
+    this.classe = classe
   }
 
   temMundial = () => {
@@ -33,10 +34,10 @@ class Time {
   }
 }
 
-const palmeiras = new Time('Sociedade Esportiva Palmeiras', '26 de Agosto de 1914', 13, 'Allianz Parque', 'Ademir da Guia', false, 0, 'https://www.palmeiras.com.br', Palmeiras, 1)
-const corinthians = new Time('Sport Club Corinthians Paulista', '2 de Setembro de 1910', 10, 'Itaquerão', 'Sócrates', true, 2, 'https://www.corinthians.com.br', Corinthians, 2)
-const saoPaulo = new Time('São Paulo Futebol Clube', '25 de Janeiro de 1930', 6, 'Morumbi', 'Rogério Ceni', true, 3, 'https://www.spfc.net',Spfc, 3)
-const santos = new Time('Santos Futebol Clube', '14 de Abril de 1912', 10, 'Vila Belmiro', 'Pelé', true, 2, 'https://www.santosfc.com.br',Santos, 4)
+const palmeiras = new Time('Sociedade Esportiva Palmeiras', '26 de Agosto de 1914', 13, 'Allianz Parque', 'Ademir da Guia', false, 0, 'https://www.palmeiras.com.br', Palmeiras, 1, 'palmeiras')
+const corinthians = new Time('Sport Club Corinthians Paulista', '2 de Setembro de 1910', 10, 'Itaquerão', 'Sócrates', true, 2, 'https://www.corinthians.com.br', Corinthians, 2, 'corinthians')
+const saoPaulo = new Time('São Paulo Futebol Clube', '25 de Janeiro de 1930', 6, 'Morumbi', 'Rogério Ceni', true, 3, 'https://www.spfc.net', Spfc, 3,'spfc' )
+const santos = new Time('Santos Futebol Clube', '14 de Abril de 1912', 10, 'Vila Belmiro', 'Pelé', true, 2, 'https://www.santosfc.com.br', Santos, 4, 'santos')
 
 const times = [
   palmeiras,
@@ -47,7 +48,7 @@ const times = [
 
 const ListaDeTimes = () =>
   times.map( item =>
-    <div key={item.id}>
+    <div key={item.id} className={item.classe}>
       <ul>
         <Image src={item.image}/>
         <ListItem 
@@ -65,7 +66,6 @@ const ListaDeTimes = () =>
         <ListItem text="Maior ídolo: " inside={item.maiorIdolo} />
         <ListItem text="Tem Mundial: " inside={item.temMundial()} />
       </ul>
-      <Hr />
     </div> 
   );
 

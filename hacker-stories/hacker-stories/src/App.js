@@ -413,6 +413,7 @@ console.log(gol)
 */
 //- Experimente criando múltiplas instâncias de componentes de um componente List.
 
+/*
 import React from 'react'
 import './App.css'
 import Santos from './santos.png'
@@ -487,7 +488,7 @@ function ListaDeTimes () {
     </div> 
   )});
 }
-
+*/
 /*</div>
 function ListItem (props) {
   return <li>{props.text}{props.inside}</li>
@@ -500,91 +501,76 @@ function Link (props) {
 */
 //- Pense em como pode ser possível dar a cada componente da Listar a sua própria lista.
 
-/*
+
 import React from 'react'
 
-const list = [
-  {
-    title: 'React',
-    url: 'https://reactjs.org',
-    author: 'Jordan Walke',
-    num_comments: 3,
-    points: 4,
-    objectID: 0,
-  },
-  {
-    title: 'Redux',
-    url: 'https://redux.js.org',
-    author: 'Dan Abramov, Andrew Clark',
-    num_comments: 2,
-    points: 8,
-    objectID: 1,
-  },
-];
+const App = () => {
+  const stories = [
+    {
+      title: 'React',
+      url: 'https://reactjs.org',
+      author: 'Jordan Walke',
+      num_comments: 3,
+      points: 4,
+      objectID: 0,
+    },
+    {
+      title: 'Redux',
+      url: 'https://redux.js.org',
+      author: 'Dan Abramov, Andrew Clark',
+      num_comments: 2,
+      points: 8,
+      objectID: 1,
+    },
+  ];
+  
+  const handleChange = event => {
+    console.log(event.target.value);
+  };
 
-function App () {
   return (
     <div>
       <Title content="My Hacker Stories"/>
       <Label index="search" content="Search: "/>
-      <Input id="search" type="text" placeholder="Pesquisar" />
+      <Input id="search" type="text" placeholder="Pesquisar" onChange={handleChange} />
+      <p>Teste</p>
       <Hr />
-      <List />
+      <List list={stories}/>
     </div>
   )
 }
 
 export default App;
 
-function List () {
-  return list.map(function(item) {
-    return (
-      <div key={item.objectID}>
-        <ul>
-          <ListItem inside={
-            <Link link={item.url} content={item.title} 
-            />}
-          />
-          <ListItem text="Author: " inside={item.author} />
-          <ListItem text="Comments: " inside={item.num_comments} />
-          <ListItem text="Points: " inside={item.points} />
-        </ul>
-        <Hr />
-      </div>
-    );
-  });
-}
-*/
-function Image (props) {
-  return <img src={props.src}></img>
-}
+const List = props => 
+  props.list.map( item =>
+  <div key={item.objectID}>
+    <ul>
+      <ListItem inside={
+        <Link link={item.url} content={item.title} 
+        />}
+      />
+      <ListItem text="Author: " inside={item.author} />
+      <ListItem text="Comments: " inside={item.num_comments} />
+      <ListItem text="Points: " inside={item.points} />
+    </ul>
+    <Hr />
+  </div>
+);
 
-function Title (props) {
-  return (
-    <h1>{props.content}</h1>
-  )
-}
 
-function Label (props) {
-  return (
-    <label htmlFor={props.index}>{props.content}</label>
-  )
-}
+const Image = (props) => <img src={props.src}></img>
 
-function Input (props) {
-  return (
-    <input id={props.id} type={props.type} placeholder={props.placeholder}></input>
-  )
-}
+const Title = (props) => <h1>{props.content}</h1>
+  
+const Label = (props) => <label htmlFor={props.index}>{props.content}</label>
 
-function Hr () {
-  return <hr />
-}
+const Input = (props) => <input id={props.id} type={props.type} placeholder={props.placeholder} onChange={props.onChange}></input>
 
-function ListItem (props) {
-  return <li>{props.text}{props.inside}</li>
-}
+const Hr = (props) => <hr />
 
-function Link (props) {
-  return <a href={props.link} target="_blank">{props.content}</a>
-}
+const ListItem = (props) => <li>{props.text}{props.inside}</li>
+
+const Link = (props) => <a href={props.link} target="_blank">{props.content}</a>
+
+/* */
