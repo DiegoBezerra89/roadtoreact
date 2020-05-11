@@ -16,7 +16,7 @@ Depois disso você só precisa conhecer mais dois métodos de componentes da cla
 
 Você pode ler mais em profundidade sobre a API do componente React na documentação oficial do React. Se você não está familiarizado com APIs em geral, eu posso recomendar a leitura deste artigo.
 
-Depois disso, você conhece todos os métodos de componentes essenciais. Ainda existem mais conceitos no React, como adereços e estado, a propriedade das crianças ou diferentes declarações de componentes. Mas você pode aprender todos eles passo a passo.
+Depois disso, você conhece todos os métodos de componentes essenciais. Ainda existem mais conceitos no React, como props e estado, a propriedade das childs ou diferentes declarações de componentes. Mas você pode aprender todos eles passo a passo.
 
 Em conclusão o React em si não tem curva de aprendizado íngreme. É apenas a camada de visão com um punhado de métodos para entender. Se você começar a aprender React como primeiro bloco de construção, eu recomendaria aprender apenas React e nenhum outro bloco de construção. O livro O caminho para aprender React segue esse conceito de aprendizado. Ele cobre todos os tópicos mencionados que você teria que aprender para entender o React.
 
@@ -284,7 +284,7 @@ Depois de ter passado pelo tutorial para iniciantes nos documentos do React e co
 - Conheça as React Props
 - Saiba mais sobre o React State
 
-Aprender e entender React. No final, não é preciso muito para criar um componente React que retorna JSX, para usar um componente React em outro componente React enquanto os organiza em uma hierarquia de componentes, para passar dados de componente para componente com adereços, e para tornar os componentes interativos com o estado. Essa é a essência do React. Aprenda React em profundidade aplicando suas habilidades aprendidas em seu projeto e não consumindo infinitos conteúdos.
+Aprender e entender React. No final, não é preciso muito para criar um componente React que retorna JSX, para usar um componente React em outro componente React enquanto os organiza em uma hierarquia de componentes, para passar dados de componente para componente com props, e para tornar os componentes interativos com o estado. Essa é a essência do React. Aprenda React em profundidade aplicando suas habilidades aprendidas em seu projeto e não consumindo infinitos conteúdos.
 
 - CONFIGURAÇÃO DO REACT PARA INICIANTES
 
@@ -2867,5 +2867,271 @@ Usando esta operação, impedimos que a variável lista/stories polua o escopo g
 
 - Confirme as alterações da última seção.
 
-- Leia mais sobre como passar os adereços para os componentes Reagir. (https://www.robinwieruch.de/react-pass-props-to-component)
+- Leia mais sobre como passar os props para os componentes Reagir. (https://www.robinwieruch.de/react-pass-props-to-component)
+*/
+
+//###################################
+
+/*
+- Compo passar props para componentes React
+
+Todos que são novatos em React se confundem com esses chamados props, pois nunca são mencionados em nenhum outro framework da web, e raramente explicados por si mesmos. Eles são uma das primeiras coisas que você aprenderá no React depois de inicialmente entender a sintaxe JSX do React. Basicamente, os props são usados para passar dados de componente para componente. Neste guia, eu quero explicar os props do React com mais detalhes. Primeiro, ele explica a questão "O que são props no React?", seguido de diferentes exemplos de props para ver como eles podem ser usados no React.
+
+- O QUE SÃO PROPS EM REAÇÃO?
+Normalmente você começa com a sintaxe JSX do React para renderizar algo para o navegador ao aprender sobre o React. Basicamente o JSX mistura HTML com JavaScript para obter o melhor dos dois mundos.
+*/
+
+import React, { Component } from 'react';
+
+class App extends Component {
+  render() {
+    const greeting = 'Welcome to React';
+    return (
+      <div>
+        <h1>{greeting}</h1>
+      </div>
+    );
+  }
+}
+ 
+export default App;
+
+//logo depois você fará seu primeiro componente
+
+import React, { Component } from 'react'
+
+class App extends Component {
+  render () {
+    (
+      <div>
+        <Greeting />
+      </div>
+    )
+  }
+}
+
+class Greeting extends Component {
+  render() {
+    const greeting = 'Welcome to React'
+    return <h1>{greeting}</h1>
+  }
+}
+
+export default App
+
+/*
+Uma pergunta comum seguida por este ato: como passar os dados como parâmetros de um componente React para outro componente? Isso porque você não quer ter um componente renderizando dados estáticos, mas sim passar dados dinâmicos para o seu componente. É aí que entram em jogo os props do React. Você pode passar dados no React definindo atributos HTML personalizados para os quais você atribui seus dados com a sintaxe JSX. Portanto, não se esqueça das chaves.
+*/
+
+import React, { Component } from 'react'
+
+class App extends Component {
+  render () {
+    const greeting = 'Welcome to React'
+    return (
+      <div>
+        <Greeting greeting={greeting} />
+      </div>
+    )
+  }
+}
+
+class Greeting extends Component {
+  render () {
+    return <h1>{this.props.greeting}</h1>
+  }
+}
+
+export default App
+
+/*
+Como você pode ver, as props são recebidas no componente de classe do React através desta instância da classe. Uma pergunta comum que surge em seguida: Por que as props não são recebidos na assinatura dos métodos de renderização? Seria similar aos componentes stateless então. Por enquanto, a equipe por trás do React considerou isso, mas ainda não alterou a API dos componentes da classe React. Talvez ela seja alterada em algum momento.
+
+Em um componente stateless, as props são recebidas na assinatura da função como argumentos:
+*/
+
+
+const Greeting = props => <h1>{props.greeting}</h1>
+
+/*
+Desde então você encontrará sempre as props na assinatura da função, que na maioria das vezes é apenas o objeto container dos seus dados, mas não os dados a serem utilizados, você pode desestruturar as props no início da assinatura da função. Pode-se chamá-lo de React props destructuring:
+*/
+
+const Greeting = ({ greeting }) => <h1>{greeting}</h1>
+
+/*
+Como você viu, as props permitem que você passe variáveis de um componente para outro abaixo da árvore de componentes. No exemplo anterior, era apenas uma variável string. Mas as props podem ser qualquer coisa, desde inteiros sobre objetos até arrays. Até mesmo os componentes React, mas você aprenderá sobre isso mais tarde. Você também pode definir as props em linha. No caso de strings, você pode passar props dentro de aspas duplas (ou aspas simples) também.
+*/
+
+import React, { Component } from 'react'
+
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <Greeting greeting="Welcome to React!" />
+      </div>
+    )
+  }
+}
+
+const Greeting = ({ greeting }) =>  <h1>{greeting}</h1>
+
+export default App
+
+/*
+Mas você também pode passar outras estruturas de dados com props em linha. No caso de objetos, pode ser confuso para iniciantes do React, pois você tem dois suportes encaracolados: um para o JSX e outro para o objeto. Isso é especialmente confuso quando se passa um objeto de estilo a um atributo de estilo no React na primeira vez.
+*/
+
+import React, { Component } from 'react'
+
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <Greeting greeting={{text: 'Welcome to React!'}} />
+      </div>
+    )
+  }
+}
+
+const Greeting = ({ greeting }) => <h1>{greeting.text}</h1>
+
+export default App
+
+/*
+Nota: É importante notar que isso pode levar a problemas de performance, pois toda vez que o componente renderizar um novo objeto é criado novamente. Mas também pode ser uma otimização prematura quando se aprende apenas sobre React.
+
+Basicamente é assim que as props são passadas aos componentes do React. Como você deve ter notado, as props só são passados de cima para baixo na árvore de componentes do React. Não há maneira de passar as props para um componente pai. Vamos revisitar esta edição mais tarde neste artigo. Além disso, é importante saber que as props do React são apenas lidos. Não há como no React definir as props (mesmo que isso fosse possível no passado). Afinal, as props são usados apenas para passar dados de um componente para outro componente React, mas apenas dos componentes dos pais para os filhos abaixo da árvore de componentes.
+
+- PROPS REACT VS. STATE
+
+Passar apenas props de componente para componente não torna o componente interativo, pois nada está lá para mudar as props. As props são apenas de leitura. É o momento em que o React State entra em ação, que pode ser mudado. O estado é co-localizado para um componente React.
+*/
+
+import React, { Component } from 'react'
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isShow = true
+    }
+  }
+
+  toggleShow = () => {
+    this.setState(state => ({ isShow: !state.isShow }));
+  }
+
+  render() {
+    return (
+      <div>
+        {this.state.isShow ? <Gretting greeting={greeting} /> : null}
+        <button onClick={this.toggleShow} type="button">
+          Toggle Show
+        </button>
+      </div>
+    );
+  }
+}
+
+const Greeting = ({ greeting }) => <h1>{greeting}</h1>
+
+export default App;
+
+/*
+Neste caso, o código utiliza um operador ternário para mostrar ou não a saudação. Você pode ler este tutorial sobre todos os renderings condicionais em React (https://www.robinwieruch.de/conditional-rendering-react). O estado torna os componentes do React interativos. Você pode ler e escrever o estado, enquanto as props são somente leitura. Uma vez que o estado muda, o componente se renderiza novamente. Além disso, o estado também pode ser passado como props para componentes filhos.
+*/
+
+import React, { Component } from 'react';
+ 
+class App extends Component {
+  constructor(props) {
+    super(props);
+ 
+    this.state = {
+      isShow: true,
+    };
+  }
+ 
+  toggleShow = () => {
+    this.setState(state => ({ isShow: !state.isShow }));
+  };
+ 
+  render() {
+    const greeting = 'Welcome to React';
+ 
+    return (
+      <div>
+        <Greeting greeting={greeting} isShow={this.state.isShow} />
+ 
+        <button onClick={this.toggleShow} type="button">
+          Toggle Show
+        </button>
+      </div>
+    );
+  }
+}
+ 
+const Greeting = ({ greeting, isShow }) =>
+  isShow ? <h1>{greeting}</h1> : null;
+ 
+export default App;
+
+/*
+O componente child não sabe se as props de entrada são do estado ou props do componente pai. O componente apenas consome os dados como props. E o componente child também se retransmite uma vez que as props de entrada mudaram.
+
+Em conclusão, toda vez que as props ou props mudam de estado, o mecanismo de renderização do componente afetado é acionado. É assim que toda a árvore de componentes se torna interativa, porque afinal, o estado é passado como props para outros componentes, e uma vez que o estado em um componente muda, o que pode ser passado como props para os componentes childs, todos os componentes afetados renderizam novamente.
+
+
+- COMO PASSAR PROPS DE UM COMPONENTE FILHO PARA UM COMPONENTE PAI?
+
+Esta é uma pergunta comum para iniciantes da React e a resposta é breve: não há como passar as props de um filho para um componente dos pais. Vamos revisitar o exemplo anterior, mas desta vez com um componente adicional de Botão para o mecanismo toggle.
+
+*/
+
+import React, { Component } from 'react';
+ 
+class App extends Component {
+  render() {
+    const greeting = 'Welcome to React';
+ 
+    return (
+      <div>
+        {isShow ? <Greeting greeting={greeting} /> : null}
+ 
+        <Button />
+      </div>
+    );
+  }
+}
+ 
+class Button extends Component {
+  constructor(props) {
+    super(props);
+ 
+    this.state = {
+      isShow: true,
+    };
+  }
+ 
+  toggleShow = () => {
+    this.setState(state => ({ isShow: !state.isShow }));
+  };
+ 
+  render() {
+    return (
+      <button onClick={this.toggleShow} type="button">
+        Toggle Show
+      </button>
+    );
+  }
+}
+ 
+const Greeting = ({ greeting }) => <h1>{greeting}</h1>;
+ 
+export default App;
+
+/*
+
 */
