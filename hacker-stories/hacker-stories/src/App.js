@@ -502,7 +502,7 @@ function Link (props) {
 //- Pense em como pode ser possível dar a cada componente da Listar a sua própria lista.
 
 
-import React from 'react'
+import React, {Component} from 'react'
 
 const App = () => {
   const stories = [
@@ -533,15 +533,20 @@ const App = () => {
       <Title content="My Hacker Stories"/>
       <Label index="search" content="Search: "/>
       <Input id="search" type="text" placeholder="Pesquisar" onChange={handleChange} />
-      <p>Teste</p>
-      <Hr />
+      <Text test="test">
+        <div>
+          <h1>Teste título</h1>
+          <Hr />
+        </div>
+        <Hr />
+      </Text>
       <List list={stories}/>
     </div>
   )
 }
-
 export default App;
 
+const Text = ({test, children}) => <p>{test}{children}</p>
 const List = props => 
   props.list.map( item =>
   <div key={item.objectID}>
@@ -559,10 +564,11 @@ const List = props =>
 );
 
 
+
 const Image = (props) => <img src={props.src}></img>
 
 const Title = (props) => <h1>{props.content}</h1>
-  
+
 const Label = (props) => <label htmlFor={props.index}>{props.content}</label>
 
 const Input = (props) => <input id={props.id} type={props.type} placeholder={props.placeholder} onChange={props.onChange}></input>
@@ -573,4 +579,31 @@ const ListItem = (props) => <li>{props.text}{props.inside}</li>
 
 const Link = (props) => <a href={props.link} target="_blank">{props.content}</a>
 
-/* */
+/*
+class App extends Component {
+  render() {
+    const greeting = {
+      subject: 'React',
+      description: 'Your component library for ...',
+      test: 'test string',
+    };
+ 
+    return (
+      <div>
+        <Greeting {...greeting} />
+      </div>
+    );
+  }
+}
+
+const Greeting = ({ subject, ...other }) => (
+  <div>
+    <Title title={`Welcome to ${subject}`} />
+    <Description {...other} />
+  </div>
+);
+ 
+const Title = ({ title }) => <h1>{title}</h1>;
+
+const Description = ({ description, test }) => <p>{description}{test}</p>;
+*/

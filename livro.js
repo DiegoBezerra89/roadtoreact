@@ -3086,7 +3086,7 @@ Em conclusão, toda vez que as props ou props mudam de estado, o mecanismo de re
 
 - COMO PASSAR PROPS DE UM COMPONENTE FILHO PARA UM COMPONENTE PAI?
 
-Esta é uma pergunta comum para iniciantes da React e a resposta é breve: não há como passar as props de um filho para um componente dos pais. Vamos revisitar o exemplo anterior, mas desta vez com um componente adicional de Botão para o mecanismo toggle.
+Esta é uma pergunta comum para iniciantes da React e a resposta é breve: não há como passar as props de um filho para um componente pai. Vamos revisitar o exemplo anterior, mas desta vez com um componente adicional de Botão para o mecanismo toggle.
 
 */
 
@@ -3133,5 +3133,346 @@ const Greeting = ({ greeting }) => <h1>{greeting}</h1>;
 export default App;
 
 /*
+Até o momento, o componente Button gerencia seu próprio estado co-localizado. Como o componente Button gerencia a propriedade isShow, não há como passá-la como props para o componente App. O componente App precisa da propriedade isShow para a renderização condicional do componente Greeting. No momento, a aplicação não funcionaria dessa forma. Este é o ponto quando você tem que levantar o estado para torná-lo acessível para outros componentes (neste caso o próprio componente App) como estado (ou como props passadas para outros componentes).
+*/
 
+import React, { Component } from 'react';
+ 
+class App extends Component {
+  constructor(props) {
+    super(props);
+ 
+    this.state = {
+      isShow: true,
+    };
+  }
+ 
+  toggleShow = () => {
+    this.setState(state => ({ isShow: !state.isShow }));
+  };
+ 
+  render() {
+    const greeting = 'Welcome to React';
+ 
+    return (
+      <div>
+        {this.state.isShow ? <Greeting greeting={greeting} /> : null}
+ 
+        <Button onClick={this.toggleShow} />
+      </div>
+    );
+  }
+}
+ 
+const Button = ({ onClick }) => (
+  <button onClick={onClick} type="button">
+    Toggle Show
+  </button>
+);
+ 
+const Greeting = ({ greeting }) => <h1>{greeting}</h1>;
+ 
+export default App;
+
+/*
+O ingrediente importante é que o componente App passa agora uma função nas props para o componente Botão. A função é usada para o manipulador de cliques no componente Botão. Entretanto, o Botão não conhece a lógica de negócio da função, apenas que ele tem que acionar a função quando o botão é clicado. Acima no componente App, o estado é alterado quando a função passada é chamada, e assim todos os componentes afetados, que usam o estado alterado ou o consomem como props, renderizam novamente. Agora você pode até mesmo passar o estado como props para o componente Greeting.
+*/
+
+import React, { Component } from 'react';
+ 
+class App extends Component {
+  constructor(props) {
+    super(props);
+ 
+    this.state = {
+      isShow: true,
+    };
+  }
+ 
+  toggleShow = () => {
+    this.setState(state => ({ isShow: !state.isShow }));
+  };
+ 
+  render() {
+    const greeting = 'Welcome to React';
+ 
+    return (
+      <div>
+        <Greeting greeting={greeting} isShow={this.state.isShow} />
+ 
+        <Button onClick={this.toggleShow} />
+      </div>
+    );
+  }
+}
+ 
+const Button = ({ onClick }) => (
+  <button onClick={onClick} type="button">
+    Toggle Show
+  </button>
+);
+ 
+const Greeting = ({ greeting, isShow }) =>
+  isShow ? <h1>{greeting}</h1> : null;
+ 
+export default App;
+
+/*
+Como dito, não há como passar as props de um filho para um componente pai. Mas você sempre pode passar funções de componentes pai para filho, enquanto os componentes filhos fazem uso destas funções e as funções podem mudar o estado em um componente pai acima. Uma vez que o estado mudou, o estado é passado para baixo como props novamente. Todos os componentes afetados irão renderizar novamente. Por exemplo, o mesmo padrão se aplica para ter componentes de página em sua aplicação React. Uma vez que você queira passar dados de página para outra no React, você pode elevar o estado até o componente (normalmente componente App) que tem todos os componentes de página como seus componentes filhos. Então os dados são gerenciados como estado no componente de nível superior, mas ainda podem ser distribuídos para todos os componentes filhos.
+
+- AS PROPS PODEM SER ESTADO, PROPS, OU PROPRIEDADES DERIVADAS
+
+Independentemente de passar props ou estado para um componente, o componente apenas recebe os dados como props. Ele não diferencia entre props ou estado. Tudo que chega é props, tudo que é gerenciado pelo próprio componente é estado. Entretanto, há uma outra coisa além das props e estado que às vezes é mencionada: props derivadas (propriedades derivadas). Basicamente é o mesmo que as props, mas apenas uma variação das props antes de serem passados para o próximo componente.
+*/
+
+import React from 'react'
+
+class App extends Component {
+  render () {
+    const greeting = {
+      subject: 'React',
+      description: 'A Component library for create user interfaces.',
+    };
+    return (
+      <div>
+        <Greeting greeting={greeting} />
+      </div>
+    );
+  }
+}
+
+const Greeting = ({ greeting }) => {
+  <div>
+    <Title title={`Welcome to ${greeting.subject}`} />
+    <Description description={greeting.description} />
+  </div>
+};
+
+const Title = ({ title }) => <h1>{title}</h1>
+
+const Description = ({ description }) => <p>{description}</p>
+
+export default App;
+
+/*
+Neste cenário, o title no componente Title é uma propriedade derivada das props mais uma interpolação de strings no componente Greeting. Este é o exemplo mais básico para ele, mas você pode imaginar como o estado ou qualquer outra lógica de negócio poderia ser usada para mudar as props passadas na descida da árvore de componentes. Mais tarde você também aprenderá sobre o estado derivado.
+
+- PROPS DE REACT E ESTILO DE CÓDIGO
+
+A passagem de muitas props para um componente pode ter um efeito terrível no estilo de código:
+
+*/
+
+import React, { Component } from 'react';
+import logo from './logo.svg'
+ 
+class App extends Component {
+  render() {
+    const greeting = {
+      subject: 'React',
+      description: 'Your component library for ...',
+    };
+ 
+    return (
+      <div>
+        <Greeting subject={greeting.subject} description={greeting.description} logo={logo} />
+      </div>
+    );
+  }
+}
+ 
+const Greeting = ({ subject, description, logo }) =>
+  ...
+
+/*
+Então como superar esse estilo de código ruim que é difícil de ler e manter? Uma maneira seria passar as props com múltiplas linhas identadas para um componente. A desestruturação poderia seguir as mesmas regras:
+*/
+
+import React, { Component } from 'react';
+import logo from './logo.svg'
+ 
+class App extends Component {
+  render() {
+    const greeting = {
+      subject: 'React',
+      description: 'Your component library for ...',
+    };
+ 
+    return (
+      <div>
+        <Greeting
+          subject={greeting.subject}
+          description={greeting.description}
+          logo={logo}
+        />
+      </div>
+    );
+  }
+}
+ 
+const Greeting = ({
+  subject,
+  description,
+  logo,
+}) =>
+  ...
+
+/*
+Você pode fazer toda essa formatação de código sozinho ou usar um formatador de código em seu lugar. Prettier é a escolha mais popular quando se trata de formatadores de código opinativos. Se você está interessado em usar Prettier, aqui você pode ler sobre como configurá-lo no Windows (https://www.robinwieruch.de/react-js-windows-setup) ou MacOS (https://www.robinwieruch.de/react-js-macos-setup) em Visual Studio Code.
+
+
+
+- SINTAXE ...PROPS EM REACT
+
+Outra estratégia para passar todas as props para um componente filho é o JavaScript spread operator. O JavaScript spread operator no React é um recurso útil e você pode ver pessoas se referindo a ele com a sintaxe ...props em React, apesar de não ser realmente um recurso React, mas apenas uma coisa vinda do JavaScript.
+*/
+
+import React, { Component } from 'react'
+
+class App extends Component {
+  render() {
+    const greeting = {
+      subject: 'React',
+      description: 'Your compenent library to...',
+    }
+
+    return (
+      <div>
+        <Greeting greeting={...greeting} />
+      </div>
+    )
+  }
+}
+
+const Greeting = ({ subject, description }) => (
+  <div>
+    <Title title={`Welcome to ${subject}!`} />
+    <Description description={description} />
+  </div>
+)
+
+const Title = ({ title }) => <h1>{title}</h1>
+
+const Description = ({ description }) => <p>{description}</p>
+
+/*
+O espalhamento das props pode ser usado para espalhar um objeto inteiro com propriedades até um componente filho. Tem o mesmo efeito de passar cada valor do objeto por seu próprio valor para o componente como antes. O componente filho recebe as props da mesma forma que antes também. Outra maneira de se espalhar props é utilizá-las com o spread operator como ...rest. 
+*/
+
+class App extends Component {
+  render() {
+    const greeting = {
+      subject: 'React',
+      description: 'Your component library for ...',
+    };
+ 
+    return (
+      <div>
+        <Greeting {...greeting} />
+      </div>
+    );
+  }
+}
+ 
+const Greeting = ({ subject, ...other }) => (
+  <div>
+    <Title title={`Welcome to ${subject}`} />
+    <Description {...other} />
+  </div>
+);
+ 
+const Title = ({ title }) => <h1>{title}</h1>;
+ 
+const Description = ({ description }) => <p>{description}</p>;
+
+
+/*
+Como você pode ver, no componente Greeting as props são desestruturadas, mas com um rest que é chamado de outra, neste caso. Então você tem a prop subject mas também a outra prop que é essencialmente apenas um objeto com todas as propriedades restantes (neste caso apenas a description). Agora você pode espalhar o resto das props para o componente Descrição, pois todos as props relevantes para os outros componentes (aqui o componente Title) foram separadas dele.
+
+
+- REACT PROPS COM VALOR PADRÃO
+
+Em alguns casos, você pode querer passar valores padrão como props. Historicamente a melhor abordagem para isso era usar o operador OR lógico do JavaScript.
+
+
+*/
+
+const Greeting = ({ subject, description }) => {
+  subject = subject || 'Earth'
+
+  return (
+    <div>
+      <Title title={`Welcome to ${subject}!`} />
+      <Description description={description}/>
+    </div>
+  )
+}
+
+// Você também pode colocar as props inline
+const Greeting = ({ subject, description }) => (
+  <div>
+    <Title title={`Welcome to ${subject || 'Earth'}`} />
+    <Description description={description} />
+  </div>
+)
+
+/*
+No entanto, com as adições da linguagem JavaScript existem outras funcionalidades que você pode usar para isso. Por exemplo, o parâmetro padrão do JavaScript para o valor padrão das props:
+*/
+
+const Greeting = ({ subject = 'Earth', description }) => (
+  <div>
+    <Title title={`Welcome to ${subject}`} />
+    <Description description={description} />
+  </div>
+);
+
+/*
+Esta última é a escolha mais popular quando se utiliza apenas JavaScript para o valor padrão. Entretanto, caso você esteja usando os PropTypes do React (https://reactjs.org/docs/typechecking-with-proptypes.html), também é possível passar os valores dos propTypes padrão da maneira React:
+*/
+
+const Greeting = ({ subject, description }) => (
+  <div>
+    <Title title={`Welcome to ${subject}!`} />
+    <Description description={description} />
+  </div>
+)
+
+Greeting.defaultProps = {
+  subject: 'Earth',
+}
+
+/*
+Afinal, minha recomendação seria usar o parâmetro padrão do JavaScript, pois todos fora do mundo React também o entendem. Além disso, muitas vezes você não terá os PropTypes do React em seu projeto para fazer uso dos PropTypes padrão em primeiro lugar.
+
+- A PROPS CHILDREN DO REACT
+
+A prop children em React pode ser usada para compor componentes de React um no outro. Ao invés de usar a herança (devido à natureza dos componentes de classe do React), o React abrange composição sobre herança. É por isso que você pode simplesmente colocar qualquer string, elemento(s) ou componente(s) do React entre as tags de abertura e fechamento dos componentes.
+
+*/
+
+class App extends Component {
+  ...
+ 
+  render() {
+    const greeting = 'Welcome to React';
+ 
+    return (
+      <div>
+        <Greeting greeting={greeting} isShow={this.state.isShow} />
+ 
+        <Button onClick={this.toggleShow}>Toggle Show</Button>
+      </div>
+    );
+  }
+}
+ 
+const Button = ({ onClick, children }) => (
+  <button onClick={onClick} type="button">
+    {children} {/*Toggle Show*/}
+  </button>
+);
+
+/*
+Neste caso, apenas uma string é colocada entre as tags dos componentes. Então, no componente filho, você pode fazer uso de tudo que está entre as tags (string, elemento(s), componente(s)), usando a prop children do React. Por exemplo, você pode apenas renderizar o conteúdo das props children como é feito neste exemplo. Nas seções seguintes, você verá como as props children também podem ser usadas como uma função.
 */
