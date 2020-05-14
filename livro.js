@@ -3475,4 +3475,89 @@ const Button = ({ onClick, children }) => (
 
 /*
 Neste caso, apenas uma string é colocada entre as tags dos componentes. Então, no componente filho, você pode fazer uso de tudo que está entre as tags (string, elemento(s), componente(s)), usando a prop children do React. Por exemplo, você pode apenas renderizar o conteúdo das props children como é feito neste exemplo. Nas seções seguintes, você verá como as props children também podem ser usadas como uma função.
+
+- COMO PASSAR COMPONENTES COMO ADEREÇOS?
+Antes de ter aprendido sobre as props children do React para passar um componente como props para outro componente.
+
+
+*/
+
+const User = ({ user }) => (
+  <Profile user={user}>
+    <AvatarRound user={user} />
+  </Profile>
+);
+ 
+const Profile = ({ user, children }) => (
+  <div className="profile">
+    <div>{children}</div>
+    <div>
+      <p>{user.name}</p>
+    </div>
+  </div>
+);
+ 
+const AvatarRound = ({ user }) => (
+  <img className="round" alt="avatar" src={user.avatarUrl} />
+);
+
+/*
+Entretanto, e se você quiser passar mais de um componente e colocá-los em posições diferentes? Então novamente você não precisa usar os props children e ao invés disso você só usa props regulares:
+*/
+
+const User = ({ user }) => (
+  <Profile
+    user={user}
+    avatar={<AvatarRound user={user} />}
+    biography={<BiographyFat user={user} />}
+  />
+);
+
+const Profile = ({ user, avatar, biography }) => (
+  <div className="profile">
+    <div>{avatar}</div>
+    <div>
+      <p>{user.name}</p>
+      {biography}
+    </div>
+  </div>
+);
+
+const AvatarRound = ({ user }) => (
+  <img className="round" alt="avatar" src={user.avatarUrl} />
+);
+
+const BiographyFat = ({ user }) => (
+  <p className="fat">{user.biography}</p>
+);
+
+const App = () => {
+  const user = {
+    name: 'Diego',
+    avatarUrl: './images/foto.png',
+    biography: 'A web developer designer Junior'
+  }
+  return (
+    <div>
+      <User user={ user } />
+    </div>
+  )
+}
+
+export default App;
+
+/*
+Muitas vezes esta abordagem é utilizada quando se tem um componente de layout ao redor que toma múltiplos componentes como conteúdo utilizando props. Agora você pode trocar os componentes Avatar ou Biography dinamicamente com outros componentes, como por exemplo:
+*/
+
+const AvatarSquare = ({ user }) => (
+  <img className="square" alt="avatar" src={user.avatarUrl} />
+)
+
+const BiographyItalic = ({ user }) => (
+  <p className="italic">{user.biography}</p>
+)
+
+/*
+Muitas pessoas se referem a isso como padrão de slots em React. Você pode encontrar um projeto pequeno e funcional no GitHub(https://github.com/the-road-to-learn-react/react-slot-pattern-example). E mais uma vez, é assim que a composição em React ganha destaque. Você não precisa tocar no componente Profile. Além disso, você não precisa passar props, neste caso o usuário, vários níveis abaixo da árvore de componentes, mas sim passá-lo para os componentes do slot.
 */
